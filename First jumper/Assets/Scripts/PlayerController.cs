@@ -3,30 +3,34 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed;
-    public float jumpForce;
+    public const float runSpeed = 1.5f;
+    public const float walkingSpeed = 10f;
+
+    public GameObject cube;
+
+    public float moveSpeed = walkingSpeed;
+    public float jumpForce = 1500f;
     public LayerMask ground;
     
     //camera
     public float mouseSensitivity = 100f;
-    public float mouseX;
-    public float mouseY;
-    public Transform camera;
+    public new Transform camera;
 
     //camera
     private float cameraPitch = 0f;
+    private float mouseX;
+    private float mouseY;
 
-    private float movementX;
-    private float movementY;
-    private bool grounded;
-    private RaycastHit groundHit;
+    private Vector2 movementVector;
     private Rigidbody rb;
+    private CapsuleCollider cd;
 
     //runs when game starts
     public void Start()
     {
         //get player's rigidbody and collider
         rb = GetComponent<Rigidbody>();
+        cd = GetComponent<CapsuleCollider>();
 
         //lock mouse in the middle of the screen
         Cursor.lockState = CursorLockMode.Locked;
@@ -36,8 +40,8 @@ public class PlayerController : MonoBehaviour
     public void FixedUpdate()
     {
         //move player forwards
-        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-        movement = transform.TransformDirection(-movement);
+        Vector3 movement = new Vector3(movementVector.x, 0.0f, movementVector.y);
+        movement = transform.TransformDirection(-movement * runSpeed);
         Vector3 direction = (transform.position - (transform.position + movement)).normalized;
 
         //move player forwards or backwards when a/s are pressed
@@ -47,25 +51,37 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         Look();
+        //  Debug.Log("1:   " + transform.GetLowestPoint<CapsuleCollider>());
+        // Debug.Log("2:   " + cd.bounds.min.y);
+        float halfHeight = cd.height / 2;
+        float lowestPoint = transform.position.y - halfHeight;
+        Debug.Log("3:   " + lowestPoint);
+        Instantiate(cube, new Vector3(transform.position.x, lowestPoint, transform.position.z), Quaternion.identity);
     }
 
     //when move input get input and set movement on z axis from (w, s, forward, backward) (-1 / 0 / 1)
     public void OnMove(InputValue movementValue)
     {
-        Vector2 movementVector = movementValue.Get<Vector2>();
+        movementVector = movementValue.Get<Vector2>();
+    }
 
-        movementX = movementVector.x;
-        movementY = movementVector.y;
+    public void OnRun(InputValue movementValue)
+    {
+        //check if run butten is held (held = true, release = false)
+        if (movementValue.isPressed)
+        {
+            moveSpeed = walkingSpeed * runSpeed;
+        } else
+        {
+            moveSpeed = walkingSpeed;
+        }
     }
 
     //when player presses space add force upwards
     public void OnJump()
     {
-        //check if grounded
-        CheckGround();
-
         //when grounded jump
-        if (grounded)
+        if (CheckGround())
         {
             rb.AddForce(0.0f, jumpForce, 0.0f);
         }
@@ -94,12 +110,30 @@ public class PlayerController : MonoBehaviour
     }
 
     //send raycast towards the ground to check if grounded
-    public void CheckGround()
+    public bool CheckGround()
     {
         //send raycast below player with variables: start, direction, distance, hit return, layermask
         Ray groundRay = new Ray(rb.position, Vector3.down);
-        grounded = Physics.Raycast(groundRay, out groundHit, 2f, ground);
+        bool grounded = Physics.Raycast(groundRay, cd.bounds.extents.y + 0.1f, ground);
+        Debug.DrawRay(rb.position, Vector3.down * (cd.bounds.extents.y + 0.1f), Color.white, 1f);
 
-        Debug.DrawRay(rb.position, Vector3.down, Color.white, 2f);
+
+        // Vector3 predictedLocationIn1Sec = calculateDownwardsMomentum();
+        // Debug.Log(predictedLocationIn1Sec);
+
+        //Debug.Log(rb.velocity.y);
+        //Debug.Log(rb.velocity.y * 0.1f);
+        //Debug.Log(cd.bounds.extents.y + 0.1f + (rb.velocity.y * 0.1f));
+
+        bool closeToGround = Physics.Raycast(groundRay, (cd.bounds.extents.y + 0.1f), ground);
+
+        return grounded;
+    }
+
+    private Vector3 calculateDownwardsMomentum()
+    {
+
+
+        return new Vector3(1f, 1f, 1f);
     }
 }
