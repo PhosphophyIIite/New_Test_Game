@@ -831,7 +831,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628651814}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.02, z: 0}
+  m_LocalPosition: {x: -24.26, y: 2.73, z: 33.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -853,9 +853,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bebdc5013467f13478b762fc76884c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 4112678505252172328, guid: 711a218ffe1f36f4b8e574a53ca9181b, type: 3}
   moveSpeed: 10
   jumpForce: 1500
+  groundHitPredictTime: 0.1
   ground:
     serializedVersion: 2
     m_Bits: 8

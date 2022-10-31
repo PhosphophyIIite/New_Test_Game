@@ -6,12 +6,11 @@ public class PlayerController : MonoBehaviour
     public const float runSpeed = 1.5f;
     public const float walkingSpeed = 10f;
 
-    public GameObject cube;
-
     public float moveSpeed = walkingSpeed;
     public float jumpForce = 1500f;
+    public float groundHitPredictTime = 0.1f;
     public LayerMask ground;
-    
+
     //camera
     public float mouseSensitivity = 100f;
     public new Transform camera;
@@ -51,12 +50,6 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         Look();
-        //  Debug.Log("1:   " + transform.GetLowestPoint<CapsuleCollider>());
-        // Debug.Log("2:   " + cd.bounds.min.y);
-        float halfHeight = cd.height / 2;
-        float lowestPoint = transform.position.y - halfHeight;
-        Debug.Log("3:   " + lowestPoint);
-        Instantiate(cube, new Vector3(transform.position.x, lowestPoint, transform.position.z), Quaternion.identity);
     }
 
     //when move input get input and set movement on z axis from (w, s, forward, backward) (-1 / 0 / 1)
@@ -80,8 +73,12 @@ public class PlayerController : MonoBehaviour
     //when player presses space add force upwards
     public void OnJump()
     {
+        bool grounded = CheckGround();
+
+
+
         //when grounded jump
-        if (CheckGround())
+        if (grounded)
         {
             rb.AddForce(0.0f, jumpForce, 0.0f);
         }
@@ -112,28 +109,24 @@ public class PlayerController : MonoBehaviour
     //send raycast towards the ground to check if grounded
     public bool CheckGround()
     {
-        //send raycast below player with variables: start, direction, distance, hit return, layermask
-        Ray groundRay = new Ray(rb.position, Vector3.down);
-        bool grounded = Physics.Raycast(groundRay, cd.bounds.extents.y + 0.1f, ground);
-        Debug.DrawRay(rb.position, Vector3.down * (cd.bounds.extents.y + 0.1f), Color.white, 1f);
+        bool grounded = false;
 
-
-        // Vector3 predictedLocationIn1Sec = calculateDownwardsMomentum();
-        // Debug.Log(predictedLocationIn1Sec);
-
-        //Debug.Log(rb.velocity.y);
-        //Debug.Log(rb.velocity.y * 0.1f);
-        //Debug.Log(cd.bounds.extents.y + 0.1f + (rb.velocity.y * 0.1f));
-
-        bool closeToGround = Physics.Raycast(groundRay, (cd.bounds.extents.y + 0.1f), ground);
-
+        // if it predicts you are grounded then no need for second raycast
+        if(predictGroundHitInTime() || Physics.Raycast(rb.position, Vector3.down, cd.bounds.extents.y + 0.1f, ground))
+        {
+            grounded = true;
+        }
+       
+        //Debug.DrawRay(rb.position, Vector3.down * (cd.bounds.extents.y + 0.1f), Color.white, 1f);
         return grounded;
     }
 
-    private Vector3 calculateDownwardsMomentum()
+    private bool predictGroundHitInTime()
     {
+        Ray ray = new Ray(cd.bounds.min, Vector3.down);
+        float distance = rb.velocity.y * groundHitPredictTime;
 
-
-        return new Vector3(1f, 1f, 1f);
+        // Debug.DrawRay(cd.bounds.min, Vector3.down * -distance, Color.red, 1f);
+        return Physics.Raycast(ray, -distance, ground);
     }
 }
