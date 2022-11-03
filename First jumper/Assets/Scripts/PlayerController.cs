@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 10f;
     public float jumpForce = 1500f;
     public float groundHitPredictTime = 0.1f;
-    public LayerMask ground;
+    public LayerMask groundLayer;
 
     //camera
     public float mouseSensitivity = 100f;
@@ -34,13 +34,16 @@ public class PlayerController : MonoBehaviour
     private float mouseY;
 
     private Vector2 movementVector;
-    private Rigidbody rb;
+    public Rigidbody rb;
     private CapsuleCollider cd;
 
 
     //Testing with FSM
     public bool runningIsPressed;
+    public bool jumpIsPressed;
     public State initialState;
+    public bool grounded = false;
+
 
     //runs when game starts
     public void Start()
@@ -84,15 +87,11 @@ public class PlayerController : MonoBehaviour
     }
 
     //when player presses space add force upwards
-    public void OnJump()
+    public void OnJump(InputValue jumpValue)
     {
-        bool grounded = CheckGround();
-
-        //when grounded jump
-        if (grounded)
-        {
-            rb.AddForce(0.0f, jumpForce, 0.0f);
-        }
+        CheckGround();
+        
+        jumpIsPressed = jumpValue.isPressed;
     }
 
     //get look vector2 from mouse delta
@@ -118,18 +117,15 @@ public class PlayerController : MonoBehaviour
     }
 
     //send raycast towards the ground to check if grounded
-    public bool CheckGround()
+    public void CheckGround()
     {
-        bool grounded = false;
-
         // if it predicts you are grounded then no need for second raycast
-        if(predictGroundHitInTime() || Physics.Raycast(rb.position, Vector3.down, cd.bounds.extents.y + 0.1f, ground))
+        if(predictGroundHitInTime() || Physics.Raycast(rb.position, Vector3.down, cd.bounds.extents.y + 0.1f, groundLayer))
         {
             grounded = true;
+        } else {
+            grounded = false;
         }
-       
-        //Debug.DrawRay(rb.position, Vector3.down * (cd.bounds.extents.y + 0.1f), Color.white, 1f);
-        return grounded;
     }
 
     private bool predictGroundHitInTime()
@@ -138,6 +134,6 @@ public class PlayerController : MonoBehaviour
         float distance = rb.velocity.y * groundHitPredictTime;
 
         // Debug.DrawRay(cd.bounds.min, Vector3.down * -distance, Color.red, 1f);
-        return Physics.Raycast(ray, -distance, ground);
+        return Physics.Raycast(ray, -distance, groundLayer);
     }
 }

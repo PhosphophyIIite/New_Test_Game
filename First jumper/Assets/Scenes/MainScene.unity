@@ -753,7 +753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1502401455
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -785,12 +785,16 @@ MonoBehaviour:
   moveSpeed: 10
   jumpForce: 1500
   groundHitPredictTime: 0.1
-  ground:
+  groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   mouseSensitivity: 40
   camera: {fileID: 1457289476}
-  running: 0
+  rb: {fileID: 0}
+  runningIsPressed: 0
+  jumpIsPressed: 0
+  initialState: {fileID: 0}
+  grounded: 0
 --- !u!114 &1502401457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,6 +1149,7 @@ GameObject:
   - component: {fileID: 1628651821}
   - component: {fileID: 1628651822}
   - component: {fileID: 1628651823}
+  - component: {fileID: 1628651824}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1279,12 +1284,16 @@ MonoBehaviour:
   moveSpeed: 10
   jumpForce: 1500
   groundHitPredictTime: 0.1
-  ground:
+  groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   mouseSensitivity: 40
   camera: {fileID: 963194228}
-  running: 0
+  rb: {fileID: 0}
+  runningIsPressed: 0
+  jumpIsPressed: 0
+  initialState: {fileID: 0}
+  grounded: 0
 --- !u!54 &1628651821
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1324,6 +1333,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b801c01295dba924faf15fa89b858802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  states: []
+--- !u!114 &1628651824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628651814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623e4b8961cc8264297e8e2e8dd7bb0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   states: []

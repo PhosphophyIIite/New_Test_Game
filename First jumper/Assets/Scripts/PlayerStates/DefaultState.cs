@@ -5,7 +5,22 @@ using UnityEngine.InputSystem;
 
 public class DefaultState : State
 {
-    // set condition for RunState
+    public override void Start()
+    {
+        base.Start();
+
+        pc.initialState = this;
+
+        ConditionRun conditionRun = new ConditionRun(pc);
+        ConditionJump conditionJump = new ConditionJump(pc);
+
+        transitions = new List<Transition>
+        {
+            new Transition(conditionRun, gameObject.GetComponent<RunState>()),
+            new Transition(conditionJump, gameObject.GetComponent<JumpState>())
+        };
+    }
+
     public class ConditionRun : Condition
     {
        public ConditionRun(PlayerController pc) : base(pc)
@@ -19,17 +34,16 @@ public class DefaultState : State
        }
     }
 
-    public override void Start()
+    public class ConditionJump : Condition
     {
-        base.Start();
+       public ConditionJump(PlayerController pc) : base(pc)
+       {
+       }
 
-        pc.initialState = this;
-
-        ConditionRun conditionRun = new ConditionRun(pc);
-
-        transitions = new List<Transition>
-        {
-            new Transition(conditionRun, gameObject.GetComponent<RunState>())
-        };
+       public override bool CheckCondition()
+       {
+            return (pc.grounded && pc.jumpIsPressed);
+           //return (Vector3.Distance(npcCustomController.npc.transform.position, npcCustomController.npcRecoverPosition) <= 130f && npcCustomController.health >= 75);
+       }
     }
 }
