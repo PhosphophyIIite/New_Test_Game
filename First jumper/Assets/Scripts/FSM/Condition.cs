@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Condition
 {
-    protected PlayerController playerController;
+    protected PlayerController pc;
 
-    public Condition(PlayerController playerController)
+    public Condition(PlayerController pc)
     {
-        this.playerController = playerController;
+        this.pc = pc;
     }
 
-    public virtual bool Test()
+    public virtual bool CheckCondition()
     {
         return false;
     }

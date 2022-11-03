@@ -790,6 +790,7 @@ MonoBehaviour:
     m_Bits: 8
   mouseSensitivity: 40
   camera: {fileID: 1457289476}
+  running: 0
 --- !u!114 &1502401457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1142,6 +1143,8 @@ GameObject:
   - component: {fileID: 1628651815}
   - component: {fileID: 1628651820}
   - component: {fileID: 1628651821}
+  - component: {fileID: 1628651822}
+  - component: {fileID: 1628651823}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1281,6 +1284,7 @@ MonoBehaviour:
     m_Bits: 8
   mouseSensitivity: 40
   camera: {fileID: 963194228}
+  running: 0
 --- !u!54 &1628651821
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1297,6 +1301,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1628651822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628651814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d4313753deb4a4cb9461dbfe4b3343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  states: []
+--- !u!114 &1628651823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628651814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b801c01295dba924faf15fa89b858802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  states: []
 --- !u!1 &1683188248
 GameObject:
   m_ObjectHideFlags: 0

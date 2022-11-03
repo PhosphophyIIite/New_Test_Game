@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class State : MonoBehaviour
 {
-    public List<NewTransition> transitions;
+    public List<Transition> transitions;
+    public List<State> states;
 
-    protected PlayerController playerController;
+    protected PlayerController pc;
 
     public virtual void Start()
     {
-        playerController = GetComponent<PlayerController>();
+        pc = GetComponent<PlayerController>();
     }
 
     public virtual void Awake()
     {
-        transitions = new List<NewTransition>();
+        transitions = new List<Transition>();
         //setup transition here
     }
 
@@ -36,9 +37,9 @@ public class State : MonoBehaviour
 
     public void LateUpdate()
     {
-        foreach (NewTransition t in transitions)
+        foreach (Transition t in transitions)
         {
-            if (t.condition.Test())
+            if (t.condition.CheckCondition())
             {
                 t.target.enabled = true;
                 this.enabled = false;

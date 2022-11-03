@@ -1,47 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DefaultState : State
 {
-    public override void Awake()
+    // set condition for RunState
+    public class ConditionRun : Condition
     {
-        //base.Awake();
+       public ConditionRun(PlayerController pc) : base(pc)
+       {
+       }
 
-        //states = new List<State>
-        //{
-        //    gameObject.GetComponent<FleeState>(),
-        //    gameObject.GetComponent<ExtinguishState>(),
-        //    gameObject.GetComponent<ReturnState>()
-        //};
-
-        // stateInitial = gameObject.GetComponent<FleeState>();
+       public override bool CheckCondition()
+       {
+            return (pc.runningIsPressed);
+           //return (Vector3.Distance(npcCustomController.npc.transform.position, npcCustomController.npcRecoverPosition) <= 130f && npcCustomController.health >= 75);
+       }
     }
-
-    //public class ConditionSavedState : Condition
-    //{
-    //    public ConditionSavedState(NPCcustomController npcCustomController) : base(npcCustomController)
-    //    {
-    //    }
-
-    //    public override bool Test()
-    //    {
-    //        return (Vector3.Distance(npcCustomController.npc.transform.position, npcCustomController.npcRecoverPosition) <= 130f && npcCustomController.health >= 75);
-    //    }
-    //}
 
     public override void Start()
     {
-        // base.Start();
+        base.Start();
 
-        // ConditionSavedState conditionSavedState = new ConditionSavedState(npcCustomController);
+        pc.initialState = this;
 
+        ConditionRun conditionRun = new ConditionRun(pc);
 
-        transitions = new List<NewTransition>
+        transitions = new List<Transition>
         {
-            // new NewTransition(conditionSavedState, npcCustomController.npcRecoverState)
+            new Transition(conditionRun, gameObject.GetComponent<RunState>())
         };
-
-        // npcCustomController.npcStateAndHealth.text = stateInitial.GetType().Name + " / " + npcCustomController.health.ToString() + "%";
     }
 }

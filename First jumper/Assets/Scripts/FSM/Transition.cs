@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewTransition
+public class Transition
 {
     public Condition condition;
     public State target;
 
-    public NewTransition(Condition aCondition, State aTarget) {
+    public Transition(Condition aCondition, State aTarget) {
         condition = aCondition;
         target = aTarget;
     }

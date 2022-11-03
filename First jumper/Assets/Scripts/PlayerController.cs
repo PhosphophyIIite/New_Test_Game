@@ -3,10 +3,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public const float runSpeed = 1.5f;
-    public const float walkingSpeed = 10f;
+    private readonly float walkingSpeed = 10f;
+    public float WalkingSpeed{
+        get
+        {
+            return walkingSpeed;
+        }
+    }
 
-    public float moveSpeed = walkingSpeed;
+    private readonly float runSpeed = 1.5f;
+    public float RunSpeed{
+        get
+        {
+            return runSpeed;
+        }
+    }
+
+    public float moveSpeed = 10f;
     public float jumpForce = 1500f;
     public float groundHitPredictTime = 0.1f;
     public LayerMask ground;
@@ -24,12 +37,19 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private CapsuleCollider cd;
 
+
+    //Testing with FSM
+    public bool runningIsPressed;
+    public State initialState;
+
     //runs when game starts
     public void Start()
     {
         //get player's rigidbody and collider
         rb = GetComponent<Rigidbody>();
         cd = GetComponent<CapsuleCollider>();
+
+        moveSpeed = WalkingSpeed;
 
         //lock mouse in the middle of the screen
         Cursor.lockState = CursorLockMode.Locked;
@@ -60,22 +80,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputValue movementValue)
     {
-        //check if run butten is held (held = true, release = false)
-        if (movementValue.isPressed)
-        {
-            moveSpeed = walkingSpeed * runSpeed;
-        } else
-        {
-            moveSpeed = walkingSpeed;
-        }
+        runningIsPressed = movementValue.isPressed;
     }
 
     //when player presses space add force upwards
     public void OnJump()
     {
         bool grounded = CheckGround();
-
-
 
         //when grounded jump
         if (grounded)
