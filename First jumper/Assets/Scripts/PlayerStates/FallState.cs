@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InBetweenState : State
+public class FallState : State
 {
     public override void Start()
     {
@@ -9,7 +9,8 @@ public class InBetweenState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => true, pc.currentState, "")
+            new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.groundedPredict, pc.m_JumpState, "Falling => Jumping(predict)"),
+            new Transition(() => pc.grounded, pc.m_DefaultState, "Fall => Default")
         };
     }
 
@@ -17,7 +18,7 @@ public class InBetweenState : State
     {
         base.OnEnable();
 
-        // Debug.Log("InBetween State");
+        // Debug.Log("FallState");
         pc.currentState = this;
     }
 }

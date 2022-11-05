@@ -220,7 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500944788657893456, guid: c7283ca699362b94e91ee2aebf759f5d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.36
+      value: 29.5
       objectReference: {fileID: 0}
     - target: {fileID: 8500944788657893456, guid: c7283ca699362b94e91ee2aebf759f5d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -228,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500944788657893456, guid: c7283ca699362b94e91ee2aebf759f5d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 45.09
+      value: 45.1
       objectReference: {fileID: 0}
     - target: {fileID: 8500944788657893456, guid: c7283ca699362b94e91ee2aebf759f5d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -874,6 +874,7 @@ MonoBehaviour:
   m_DefaultState: {fileID: 0}
   m_JumpState: {fileID: 0}
   m_RunState: {fileID: 0}
+  m_FallState: {fileID: 0}
   testKey: 0
 --- !u!114 &1502401457
 MonoBehaviour:
@@ -1230,6 +1231,7 @@ GameObject:
   - component: {fileID: 1628651825}
   - component: {fileID: 1628651823}
   - component: {fileID: 1628651824}
+  - component: {fileID: 1628651826}
   - component: {fileID: 1628651822}
   m_Layer: 0
   m_Name: Player
@@ -1340,7 +1342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628651814}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.26, y: 2.73, z: 30.46}
+  m_LocalPosition: {x: -24.26, y: 0.777, z: 30.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1363,7 +1365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  jumpForce: 15
+  jumpForce: 1500
   groundHitPredictTime: 0.1
   groundLayer:
     serializedVersion: 2
@@ -1381,6 +1383,7 @@ MonoBehaviour:
   m_DefaultState: {fileID: 0}
   m_JumpState: {fileID: 0}
   m_RunState: {fileID: 0}
+  m_FallState: {fileID: 0}
   testKey: 0
 --- !u!54 &1628651821
 Rigidbody:
@@ -1417,7 +1420,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628651814}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b801c01295dba924faf15fa89b858802, type: 3}
   m_Name: 
@@ -1444,6 +1447,18 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9702e97dc8236c240b4d3e1b65246799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1628651826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628651814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4991254a65aee9449147f63c179b3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1683188248

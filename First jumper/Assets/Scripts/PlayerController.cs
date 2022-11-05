@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public State m_DefaultState;
     public State m_JumpState;
     public State m_RunState;
+    public State m_FallState;
 
 
     //only for testing
@@ -78,6 +79,10 @@ public class PlayerController : MonoBehaviour
 
         if(!m_JumpState){
             m_JumpState = gameObject.GetComponent<JumpState>();
+        }
+
+        if(!m_FallState){
+            m_FallState = gameObject.GetComponent<FallState>();
         }
 
         if(!m_RunState){
@@ -123,8 +128,11 @@ public class PlayerController : MonoBehaviour
     //when player presses space add force upwards
     public void OnJump(InputValue jumpValue)
     {
-        PredictGroundHitInTime();
-        CheckGround();
+        if (jumpValue.isPressed){
+            PredictGroundHitInTime();
+
+            CheckGround();
+        }
 
         jumpIsPressed = jumpValue.isPressed;
     }
@@ -174,10 +182,17 @@ public class PlayerController : MonoBehaviour
 
     private void PredictGroundHitInTime()
     {
-        Ray ray = new Ray(cd.bounds.min, Vector3.down);
+        Ray ray = new Ray(new Vector3(transform.position.x, cd.bounds.min.y, transform.position.z), Vector3.down);
+
+        //check if player is actually going down (if velocity goes up: return)
+        if(rb.velocity.y > 0){
+            groundedPredict = false;
+            return;
+        }
+
         float distance = rb.velocity.y * groundHitPredictTime;
 
-        // Debug.DrawRay(cd.bounds.min, Vector3.down * -distance, Color.red, 1f);
         groundedPredict = Physics.Raycast(ray, -distance, groundLayer);
+        Debug.DrawRay(new Vector3(transform.position.x, cd.bounds.min.y, transform.position.z), Vector3.down * -distance, Color.red, 60f);
     }
 }

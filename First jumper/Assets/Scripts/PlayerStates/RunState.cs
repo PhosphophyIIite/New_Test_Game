@@ -19,7 +19,7 @@ public class RunState : State
     {
         base.OnEnable();
 
-        Debug.Log("Run State");
+        // Debug.Log("Run State");
         pc.currentState = this;
     }
 

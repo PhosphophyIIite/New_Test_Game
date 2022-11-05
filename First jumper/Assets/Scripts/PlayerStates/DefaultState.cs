@@ -22,7 +22,7 @@ public class DefaultState : State
     {
         base.OnEnable();
 
-        Debug.Log("Default State");
+        // Debug.Log("Default State");
         pc.currentState = this;
     }
 }
