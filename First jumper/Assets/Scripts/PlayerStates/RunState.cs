@@ -9,11 +9,9 @@ public class RunState : State
     {
         base.Start();
 
-        ConditionDefault conditionDefault = new ConditionDefault(pc);
-
         transitions = new List<Transition>
         {
-            new Transition(conditionDefault, gameObject.GetComponent<DefaultState>())
+            new Transition(() => !pc.runningIsPressed, gameObject.GetComponent<DefaultState>())
         };
     }
 
@@ -27,17 +25,5 @@ public class RunState : State
         base.OnDisable();
 
         pc.moveSpeed = pc.WalkingSpeed;
-    }
-
-    public class ConditionDefault : Condition
-    {
-       public ConditionDefault(PlayerController pc) : base(pc)
-       {
-       }
-
-       public override bool CheckCondition()
-       {
-            return (!pc.runningIsPressed);
-       }
     }
 }

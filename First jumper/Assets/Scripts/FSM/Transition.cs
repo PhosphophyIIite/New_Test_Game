@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public class Transition
 {
-    public Condition condition;
+    public Func<bool> condition;
     public State target;
 
-    public Transition(Condition aCondition, State aTarget) {
-        condition = aCondition;
-        target = aTarget;
+    public Func<bool> CheckCondition => condition;
+    public State Target => target;
+
+    public Transition(Func<bool> condition, State target) {
+        this.condition = condition;
+        this.target = target;
     }
 }

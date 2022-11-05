@@ -5,19 +5,19 @@ using UnityEngine;
 public class State : MonoBehaviour
 {
     public List<Transition> transitions;
-    public List<State> states;
 
     protected PlayerController pc;
 
-    public virtual void Start()
-    {
-        pc = GetComponent<PlayerController>();
-    }
-
     public virtual void Awake()
     {
+        pc = GetComponent<PlayerController>();
+        
         transitions = new List<Transition>();
-        //setup transition here
+    }
+
+    public virtual void Start()
+    {
+        //developer state start here
     }
 
     public virtual void OnEnable()
@@ -25,24 +25,30 @@ public class State : MonoBehaviour
         //develop state initialization here
     }
 
-    public virtual void OnDisable()
-    {
-        //develop state finalization here
-    }
 
     public virtual void Update()
     {
         //develop behavior here
     }
 
+    public virtual void FixedUpdate()
+    {
+        //develop behavior here
+    }
+
+    public virtual void OnDisable()
+    {
+        //develop state finalization here
+    }
+
     public void LateUpdate()
     {
-        foreach (Transition t in transitions)
+        foreach (Transition transition in transitions)
         {
-            if (t.condition.CheckCondition())
+            if (transition.CheckCondition())
             {
-                t.target.enabled = true;
-                this.enabled = false;
+                transition.Target.enabled = true;
+                enabled = false;
                 return;
             }
         }

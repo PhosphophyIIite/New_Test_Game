@@ -9,41 +9,12 @@ public class DefaultState : State
     {
         base.Start();
 
-        pc.initialState = this;
-
-        ConditionRun conditionRun = new ConditionRun(pc);
-        ConditionJump conditionJump = new ConditionJump(pc);
+        pc.initialState = this; // does currently nothing
 
         transitions = new List<Transition>
         {
-            new Transition(conditionRun, gameObject.GetComponent<RunState>()),
-            new Transition(conditionJump, gameObject.GetComponent<JumpState>())
+            new Transition(() => pc.runningIsPressed, gameObject.GetComponent<RunState>()),
+            new Transition(() => pc.grounded && pc.jumpIsPressed, gameObject.GetComponent<JumpState>())
         };
-    }
-
-    public class ConditionRun : Condition
-    {
-       public ConditionRun(PlayerController pc) : base(pc)
-       {
-       }
-
-       public override bool CheckCondition()
-       {
-            return (pc.runningIsPressed);
-           //return (Vector3.Distance(npcCustomController.npc.transform.position, npcCustomController.npcRecoverPosition) <= 130f && npcCustomController.health >= 75);
-       }
-    }
-
-    public class ConditionJump : Condition
-    {
-       public ConditionJump(PlayerController pc) : base(pc)
-       {
-       }
-
-       public override bool CheckCondition()
-       {
-            return (pc.grounded && pc.jumpIsPressed);
-           //return (Vector3.Distance(npcCustomController.npc.transform.position, npcCustomController.npcRecoverPosition) <= 130f && npcCustomController.health >= 75);
-       }
     }
 }

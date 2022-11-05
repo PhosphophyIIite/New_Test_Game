@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "TestMinKey",
+                    "type": "Value",
+                    "id": "6c0a562c-4d5d-43b6-9948-1611578bdb5a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Look",
                     "type": "PassThrough",
                     "id": "378b928e-1a91-48a4-93ec-192e005903a2",
@@ -172,6 +181,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7579c869-5569-44c8-b308-79cbfd12355d",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TestMinKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

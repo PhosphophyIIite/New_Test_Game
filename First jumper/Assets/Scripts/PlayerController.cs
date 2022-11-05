@@ -43,14 +43,20 @@ public class PlayerController : MonoBehaviour
     public bool jumpIsPressed;
     public State initialState;
     public bool grounded = false;
+    public bool testKey = false;
 
 
     //runs when game starts
     public void Start()
     {
-        //get player's rigidbody and collider
-        rb = GetComponent<Rigidbody>();
-        cd = GetComponent<CapsuleCollider>();
+        if(!rb){
+            rb = GetComponent<Rigidbody>();
+        }
+
+        if(!cd){
+            cd = GetComponent<CapsuleCollider>();
+        }
+
 
         moveSpeed = WalkingSpeed;
 
@@ -89,9 +95,19 @@ public class PlayerController : MonoBehaviour
     //when player presses space add force upwards
     public void OnJump(InputValue jumpValue)
     {
+        Debug.Log("jump pressed");
+
         CheckGround();
-        
+
         jumpIsPressed = jumpValue.isPressed;
+    }
+
+    public void OnTestMinKey(InputValue testMinKey)
+    {
+        Debug.Log("Test key is: " + testMinKey.isPressed);
+        CheckGround();
+
+        testKey = testMinKey.isPressed;
     }
 
     //get look vector2 from mouse delta

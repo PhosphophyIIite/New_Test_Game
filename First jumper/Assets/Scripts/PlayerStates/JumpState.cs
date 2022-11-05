@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,38 +7,18 @@ public class JumpState : State
     {
         base.Start();
 
-        ConditionDefault conditionDefault = new ConditionDefault(pc);
+        Debug.Log("JumpState");
 
         transitions = new List<Transition>
         {
-            new Transition(conditionDefault, gameObject.GetComponent<DefaultState>())
+            new Transition(() => pc.grounded && pc.testKey, gameObject.GetComponent<DefaultState>()) // && no velocity
         };
     }
 
     public override void OnEnable()
-    {   
+    {
         base.OnEnable();
 
-        Debug.Log("JumpState");
         pc.rb.AddForce(0.0f, pc.jumpForce, 0.0f);
-    }
-
-    public override void OnDisable()
-    {
-        base.OnDisable();
-
-        pc.grounded = false;
-    }
-
-    public class ConditionDefault : Condition
-    {
-       public ConditionDefault(PlayerController pc) : base(pc)
-       {
-       }
-
-       public override bool CheckCondition()
-       {
-            return (pc.grounded); // && no velocity
-       }
     }
 }
