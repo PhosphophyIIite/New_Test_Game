@@ -7,11 +7,11 @@ public class JumpState : State
     {
         base.Start();
 
-        Debug.Log("JumpState");
-
         transitions = new List<Transition>
         {
-            new Transition(() => pc.grounded && pc.testKey, gameObject.GetComponent<DefaultState>()) // && no velocity
+            new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.groundedPredict, pc.m_InBetweenState, "Jumping(predict) => Jumping"),
+            new Transition(() => pc.grounded && pc.rb.velocity.y == 0 && !pc.jumpIsPressed, pc.m_DefaultState, "Jumping => Default"),
+            new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.jumpIsPressed, pc.m_InBetweenState, "Jumping => Jumping") // should never hit this condition
         };
     }
 
@@ -19,6 +19,23 @@ public class JumpState : State
     {
         base.OnEnable();
 
+        pc.currentState = this;
+
+        pc.jumpIsPressed = false;
+        pc.groundedPredict = false;
+
+        // Set vertical velocity to 0
+        pc.rb.velocity = new Vector3(pc.rb.velocity.x, 0.0f, pc.rb.velocity.z);
+
+        // Add jump force
         pc.rb.AddForce(0.0f, pc.jumpForce, 0.0f);
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        pc.groundedPredict = false;
+        pc.jumpIsPressed = false;
     }
 }

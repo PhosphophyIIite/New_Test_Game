@@ -47,6 +47,8 @@ public class State : MonoBehaviour
         {
             if (transition.CheckCondition())
             {
+                Debug.Log(pc.rb.velocity.y);
+                Debug.Log(transition.Message);
                 transition.Target.enabled = true;
                 enabled = false;
                 return;

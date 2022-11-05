@@ -13,8 +13,16 @@ public class DefaultState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => pc.runningIsPressed, gameObject.GetComponent<RunState>()),
-            new Transition(() => pc.grounded && pc.jumpIsPressed, gameObject.GetComponent<JumpState>())
+            new Transition(() => pc.runningIsPressed, pc.m_RunState, ""),
+            new Transition(() => pc.grounded && pc.jumpIsPressed, pc.m_JumpState, "Default => Jumping")
         };
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        Debug.Log("Default State");
+        pc.currentState = this;
     }
 }

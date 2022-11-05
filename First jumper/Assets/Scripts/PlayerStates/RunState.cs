@@ -11,12 +11,22 @@ public class RunState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => !pc.runningIsPressed, gameObject.GetComponent<DefaultState>())
+            new Transition(() => !pc.runningIsPressed, pc.m_DefaultState, "")
         };
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        Debug.Log("Run State");
+        pc.currentState = this;
     }
 
     public void OnRun(InputValue movementValue)
     {
+        Debug.Log("Run State");
+        
         pc.moveSpeed = pc.WalkingSpeed * pc.RunSpeed;
     }
 

@@ -43,11 +43,22 @@ public class PlayerController : MonoBehaviour
     public bool jumpIsPressed;
     public State initialState;
     public bool grounded = false;
+    public bool groundedPredict = false;
+    public State currentState;
+
+    //get all states
+     public State m_InBetweenState;
+    public State m_DefaultState;
+    public State m_JumpState;
+    public State m_RunState;
+
+
+    //only for testing
     public bool testKey = false;
 
 
     //runs when game starts
-    public void Start()
+    public void Awake()
     {
         if(!rb){
             rb = GetComponent<Rigidbody>();
@@ -55,6 +66,22 @@ public class PlayerController : MonoBehaviour
 
         if(!cd){
             cd = GetComponent<CapsuleCollider>();
+        }
+
+        if(!m_InBetweenState){
+            m_InBetweenState = gameObject.GetComponent<InBetweenState>();
+        }
+        
+        if(!m_DefaultState){
+            m_DefaultState = gameObject.GetComponent<DefaultState>();
+        }
+
+        if(!m_JumpState){
+            m_JumpState = gameObject.GetComponent<JumpState>();
+        }
+
+        if(!m_RunState){
+            m_RunState = gameObject.GetComponent<RunState>();
         }
 
 
@@ -78,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
+        CheckGround();
         Look();
     }
 
@@ -95,13 +123,13 @@ public class PlayerController : MonoBehaviour
     //when player presses space add force upwards
     public void OnJump(InputValue jumpValue)
     {
-        Debug.Log("jump pressed");
-
+        PredictGroundHitInTime();
         CheckGround();
 
         jumpIsPressed = jumpValue.isPressed;
     }
 
+    //only for testing
     public void OnTestMinKey(InputValue testMinKey)
     {
         Debug.Log("Test key is: " + testMinKey.isPressed);
@@ -136,7 +164,7 @@ public class PlayerController : MonoBehaviour
     public void CheckGround()
     {
         // if it predicts you are grounded then no need for second raycast
-        if(predictGroundHitInTime() || Physics.Raycast(rb.position, Vector3.down, cd.bounds.extents.y + 0.1f, groundLayer))
+        if(Physics.Raycast(rb.position, Vector3.down, cd.bounds.extents.y + 0.1f, groundLayer))
         {
             grounded = true;
         } else {
@@ -144,12 +172,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool predictGroundHitInTime()
+    private void PredictGroundHitInTime()
     {
         Ray ray = new Ray(cd.bounds.min, Vector3.down);
         float distance = rb.velocity.y * groundHitPredictTime;
 
         // Debug.DrawRay(cd.bounds.min, Vector3.down * -distance, Color.red, 1f);
-        return Physics.Raycast(ray, -distance, groundLayer);
+        groundedPredict = Physics.Raycast(ray, -distance, groundLayer);
     }
 }
