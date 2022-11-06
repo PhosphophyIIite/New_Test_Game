@@ -1,51 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State : MonoBehaviour
+public class ItemState : MonoBehaviour
 {
-    public List<Transition> transitions;
+    public List<Transition> itemTransitions;
     protected PlayerController pc;
 
     public virtual void Awake()
     {
         pc = GetComponent<PlayerController>();
         
-        transitions = new List<Transition>();
+        itemTransitions = new List<Transition>();
     }
 
     public virtual void Start()
     {
-        //developer state start here
+        // Develop state start here
     }
 
     public virtual void OnEnable()
     {
-        //develop state initialization here
+        // Develop state initialization here
     }
 
     public virtual void Update()
     {
-        //develop behavior here
+        // Develop behavior here
     }
 
     public virtual void FixedUpdate()
     {
-        //develop behavior here
+        // Develop behavior here
     }
 
     public virtual void OnDisable()
     {
-        //develop state finalization here
+        // Develop state finalization here
     }
 
     public void LateUpdate()
     {
-        foreach (Transition transition in transitions)
+        foreach (Transition transition in itemTransitions)
         {
             if (transition.CheckCondition())
             {
                 Debug.Log(transition.Message);
-                transition.Target.enabled = true;
+                transition.ItemTarget.enabled = true;
                 enabled = false;
                 return;
             }

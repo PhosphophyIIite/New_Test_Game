@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpState : State
+public class JumpState : MovementState
 {
     public override void Start()
     {
         base.Start();
 
-        transitions = new List<Transition>
+        movementTransitions = new List<Transition>
         {
             new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.groundedPredict, pc.m_InBetweenState, "Jump(predict) => InBetween(Jump)"),
             new Transition(() => !pc.grounded && pc.rb.velocity.y <= 0, pc.m_FallState, "Jump => Fall")
@@ -21,7 +21,7 @@ public class JumpState : State
         base.OnEnable();
 
         // Debug.Log("Jump State");
-        pc.currentState = this;
+        pc.currentMovementState = this;
 
         pc.jumpIsPressed = false;
         pc.groundedPredict = false;

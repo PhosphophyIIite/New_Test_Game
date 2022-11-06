@@ -24,11 +24,11 @@ public class PlayerController : MonoBehaviour
     public float groundHitPredictTime = 0.1f;
     public LayerMask groundLayer;
 
-    //camera
+    // Camera
     public float mouseSensitivity = 100f;
     public new Transform camera;
 
-    //camera
+    // Camera
     private float cameraPitch = 0f;
     private float mouseX;
     private float mouseY;
@@ -37,21 +37,26 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     private CapsuleCollider cd;
 
-
     // FSM
     public bool runningIsPressed;
     public bool jumpIsPressed;
-    public State initialState;
-    public State currentState;
+    public MovementState initialMovementState;
+    public MovementState currentMovementState;
+    public ItemState initialItemState;
+    public ItemState currentItemState;
     public bool grounded = false;
     public bool groundedPredict = false;
 
-    // All states
-    public State m_InBetweenState;
-    public State m_DefaultState;
-    public State m_JumpState;
-    public State m_RunState;
-    public State m_FallState;
+    // Movement states
+    public MovementState m_InBetweenState;
+    public MovementState m_DefaultMovementState;
+    public MovementState m_JumpState;
+    public MovementState m_RunState;
+    public MovementState m_FallState;
+
+    // Item States
+    public ItemState m_DefaultItemState;
+    public ItemState m_HoldState;
 
     // Extra condition for testing
     public bool testKey = false;
@@ -71,8 +76,8 @@ public class PlayerController : MonoBehaviour
             m_InBetweenState = gameObject.GetComponent<InBetweenState>();
         }
         
-        if(!m_DefaultState){
-            m_DefaultState = gameObject.GetComponent<DefaultState>();
+        if(!m_DefaultMovementState){
+            m_DefaultMovementState = gameObject.GetComponent<DefaultMovementState>();
         }
 
         if(!m_JumpState){
@@ -85,6 +90,14 @@ public class PlayerController : MonoBehaviour
 
         if(!m_RunState){
             m_RunState = gameObject.GetComponent<RunState>();
+        }
+
+        if(!m_DefaultItemState){
+            m_DefaultItemState = gameObject.GetComponent<DefaultItemState>();
+        }
+
+        if(!m_HoldState){
+            m_HoldState = gameObject.GetComponent<HoldState>();
         }
 
         moveSpeed = WalkingSpeed;
