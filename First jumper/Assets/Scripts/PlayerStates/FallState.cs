@@ -9,8 +9,8 @@ public class FallState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.groundedPredict, pc.m_JumpState, "Falling => Jumping(predict)"),
-            new Transition(() => pc.grounded, pc.m_DefaultState, "Fall => Default")
+            new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.groundedPredict, pc.m_JumpState, "Fall => Jump(predict)"),
+            new Transition(() => pc.grounded && pc.rb.velocity.y >= -0.1f, pc.m_DefaultState, "Fall => Default")
         };
     }
 

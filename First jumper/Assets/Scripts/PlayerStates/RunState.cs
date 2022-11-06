@@ -11,7 +11,9 @@ public class RunState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => !pc.runningIsPressed, pc.m_DefaultState, "")
+            new Transition(() => pc.rb.velocity.y <= -0.1f, pc.m_FallState, "Run => Fall"),
+            new Transition(() => !pc.runningIsPressed, pc.m_DefaultState, "Run => Default"),
+            new Transition(() => pc.grounded && pc.jumpIsPressed, pc.m_JumpState, "Run => Jumping")
         };
     }
 
@@ -21,14 +23,16 @@ public class RunState : State
 
         // Debug.Log("Run State");
         pc.currentState = this;
-    }
 
-    public void OnRun(InputValue movementValue)
-    {
-        Debug.Log("Run State");
-        
         pc.moveSpeed = pc.WalkingSpeed * pc.RunSpeed;
     }
+
+    // public override void Update()
+    // {
+    //     base.Update();
+
+    //     Debug.Log(pc.rb.velocity.y);
+    // }
 
     public override void OnDisable()
     {

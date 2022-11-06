@@ -9,7 +9,7 @@ public class InBetweenState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => true, pc.currentState, "")
+            new Transition(() => true, pc.currentState, pc.currentState + " => " + pc.currentState)
         };
     }
 

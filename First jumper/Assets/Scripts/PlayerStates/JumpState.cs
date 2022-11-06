@@ -9,8 +9,8 @@ public class JumpState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.groundedPredict, pc.m_InBetweenState, "Jumping(predict) => Jumping"),
-            new Transition(() => !pc.grounded && pc.rb.velocity.y <= 0, pc.m_FallState, "Jumping => Falling")
+            new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.groundedPredict, pc.m_InBetweenState, "Jump(predict) => InBetween(Jump)"),
+            new Transition(() => !pc.grounded && pc.rb.velocity.y <= 0, pc.m_FallState, "Jump => Fall")
             // new Transition(() => pc.grounded && pc.rb.velocity.y == 0 && !pc.jumpIsPressed !pc.groundPredict, pc.m_DefaultState, "Jumping => Default"),
             // new Transition(() => pc.grounded && pc.rb.velocity.y <= 0 && pc.jumpIsPressed, pc.m_InBetweenState, "Jumping => Jumping") // should never hit this condition
         };

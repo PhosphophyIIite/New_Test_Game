@@ -13,7 +13,7 @@ public class DefaultState : State
 
         transitions = new List<Transition>
         {
-            new Transition(() => pc.runningIsPressed, pc.m_RunState, ""),
+            new Transition(() => pc.runningIsPressed, pc.m_RunState, "Default => Run"),
             new Transition(() => pc.grounded && pc.jumpIsPressed, pc.m_JumpState, "Default => Jumping")
         };
     }
