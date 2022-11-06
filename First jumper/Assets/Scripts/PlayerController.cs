@@ -38,27 +38,25 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider cd;
 
 
-    //Testing with FSM
+    // FSM
     public bool runningIsPressed;
     public bool jumpIsPressed;
     public State initialState;
+    public State currentState;
     public bool grounded = false;
     public bool groundedPredict = false;
-    public State currentState;
 
-    //get all states
-     public State m_InBetweenState;
+    // All states
+    public State m_InBetweenState;
     public State m_DefaultState;
     public State m_JumpState;
     public State m_RunState;
     public State m_FallState;
 
-
-    //only for testing
+    // Extra condition for testing
     public bool testKey = false;
 
-
-    //runs when game starts
+    // Called when game starts
     public void Awake()
     {
         if(!rb){
@@ -89,14 +87,13 @@ public class PlayerController : MonoBehaviour
             m_RunState = gameObject.GetComponent<RunState>();
         }
 
-
         moveSpeed = WalkingSpeed;
 
         //lock mouse in the middle of the screen
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    //fixedupdate is called once per frame
+    // Called every physics update
     public void FixedUpdate()
     {
         //move player forwards
@@ -108,6 +105,7 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(transform.position + (direction * Time.deltaTime * moveSpeed));
     }
 
+    // Called every frame
     public void Update()
     {
         CheckGround();
@@ -137,7 +135,7 @@ public class PlayerController : MonoBehaviour
         jumpIsPressed = jumpValue.isPressed;
     }
 
-    //only for testing
+    // Extra condition for testing FSM
     public void OnTestMinKey(InputValue testMinKey)
     {
         Debug.Log("Test key is: " + testMinKey.isPressed);
@@ -146,13 +144,14 @@ public class PlayerController : MonoBehaviour
         testKey = testMinKey.isPressed;
     }
 
-    //get look vector2 from mouse delta
+    // Get look vector2 from mouse delta
     public void OnLook(InputValue value)
     {
         mouseX = value.Get<Vector2>().x * mouseSensitivity * Time.deltaTime;
         mouseY = value.Get<Vector2>().y * mouseSensitivity * Time.deltaTime;
     }
 
+    // Sets camera to mouse movement
     private void Look()
     {
         //rotate camera on x-axis when lookin up and down (inverted because camera angles are inverterd compared mouse delta up and down
@@ -168,7 +167,7 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector2.up * mouseDelta.x);
     }
 
-    //send raycast towards the ground to check if grounded
+    // Send raycast towards the ground to check if grounded
     public void CheckGround()
     {
         // if it predicts you are grounded then no need for second raycast
@@ -180,6 +179,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Send raycast towards the ground multiplied by velocity to make players be able to buffer a jump
     private void PredictGroundHitInTime()
     {
         Ray ray = new Ray(new Vector3(transform.position.x, cd.bounds.min.y, transform.position.z), Vector3.down);

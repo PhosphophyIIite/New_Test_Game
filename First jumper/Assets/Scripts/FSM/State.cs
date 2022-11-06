@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class State : MonoBehaviour
 {
     public List<Transition> transitions;
-
     protected PlayerController pc;
 
     public virtual void Awake()
@@ -24,7 +22,6 @@ public class State : MonoBehaviour
     {
         //develop state initialization here
     }
-
 
     public virtual void Update()
     {

@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class RunState : State
 {
@@ -26,13 +23,6 @@ public class RunState : State
 
         pc.moveSpeed = pc.WalkingSpeed * pc.RunSpeed;
     }
-
-    // public override void Update()
-    // {
-    //     base.Update();
-
-    //     Debug.Log(pc.rb.velocity.y);
-    // }
 
     public override void OnDisable()
     {
