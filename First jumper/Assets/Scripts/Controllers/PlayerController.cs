@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
     // Extra condition for testing
     public bool testKey = false;
+    public bool testKey2 = false;
 
     // Called when game starts
     public void Awake()
@@ -151,10 +152,19 @@ public class PlayerController : MonoBehaviour
     // Extra condition for testing FSM
     public void OnTestMinKey(InputValue testMinKey)
     {
-        Debug.Log("Test key is: " + testMinKey.isPressed);
+        // Debug.Log("Test key is: " + testMinKey.isPressed);
         CheckGround();
 
         testKey = testMinKey.isPressed;
+    }
+
+    // Extra condition for testing FSM
+    public void OnTestNumPlusKey(InputValue testPlusKey)
+    {
+        // Debug.Log("Test key is: " + testPlusKey.isPressed);
+        CheckGround();
+
+        testKey2 = testPlusKey.isPressed;
     }
 
     // Get look vector2 from mouse delta

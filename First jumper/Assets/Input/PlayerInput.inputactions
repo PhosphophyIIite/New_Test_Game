@@ -33,6 +33,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "TestNumPlusKey",
+                    "type": "Value",
+                    "id": "6f44048e-aa3d-4663-b823-7b5429cb55bf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Look",
                     "type": "PassThrough",
                     "id": "378b928e-1a91-48a4-93ec-192e005903a2",
@@ -192,6 +201,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TestMinKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "adb6ec94-ec35-4037-a058-ab58a1593694",
+                    "path": "<Keyboard>/numpadMinus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TestMinKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eeded7d8-cec0-4c78-b0d9-831392fe1fcd",
+                    "path": "<Keyboard>/numpadPlus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TestNumPlusKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

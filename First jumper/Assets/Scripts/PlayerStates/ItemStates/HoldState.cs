@@ -6,10 +6,10 @@ public class HoldState : ItemState
     {
         base.Start();
 
-        // movementTransitions = new List<Transition>
-        // {
-        //     new Transition(() => , pc.m_HoldState, "Hold => DefaultItem")
-        // };
+        itemTransitions = new List<Transition>
+        {
+            new Transition(() => pc.testKey2, pc.m_DefaultItemState, "Hold => DefaultItem")
+        };
     }
 
     public override void OnEnable()
