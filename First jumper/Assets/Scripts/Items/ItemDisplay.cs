@@ -7,8 +7,12 @@ public class ItemDisplay : MonoBehaviour
 
     void Start()
     {
+        if(gun == null){
+            return;
+        }
+
         gun.GetObject();
 
-        GetComponent<Renderer>().material = gun.texture;
+        GetComponent<Renderer>().material = gun.Texture;
     }
 }

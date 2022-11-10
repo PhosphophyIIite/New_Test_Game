@@ -1,8 +1,22 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HoldState : ItemState
 {
+    private Transform attackPoint;
+    [SerializeField]
+    private Transform shotFolder;
+    private bool coroutineIsNotActive = true;
+
+    private IEnumerator ShotDelay(){
+        coroutineIsNotActive = false;
+        
+        yield return new WaitForSeconds(pc.currentGun.FireRate);
+        
+        coroutineIsNotActive = true;
+    }
+
     public override void Start()
     {
         base.Start();
@@ -10,7 +24,7 @@ public class HoldState : ItemState
         itemTransitions = new List<Transition>
         {
             new Transition(() => pc.testKey2, pc.m_DefaultItemState, "Hold => DefaultItem")
-        };
+        };        
     }
 
     public override void OnEnable()
@@ -20,9 +34,15 @@ public class HoldState : ItemState
         // Debug.Log("Default State");
         pc.currentItemState = this;
 
-        Debug.Log(pc.currentGun.GetObject());
+        if(attackPoint == null){
+            attackPoint = pc.itemHolder.transform.GetChild(0);
+        }
 
-        pc.itemHolder.GetComponent<Renderer>().material = pc.currentGun.texture;
+        if(shotFolder == null){
+            shotFolder = GameObject.Find("ShotFolder").transform;
+        }
+
+        pc.itemHolder.GetComponent<Renderer>().material = pc.currentGun.Texture;
         pc.itemHolder.GetComponent<Renderer>().enabled = true;
     }
 
@@ -30,11 +50,16 @@ public class HoldState : ItemState
     {
         base.Update();
 
-        if(pc.attackIsPressed)
-            pc.currentGun.Shoot();
+        // if(pc.currentGun is Gun){ }  // or in the future pc.currentItem 
+        // Or rename all attack moves to same name...
+        if(pc.useIsPressed && coroutineIsNotActive){
+            StartCoroutine(ShotDelay());
+            pc.currentGun.Use(pc.camera, attackPoint, shotFolder);
+        }
 
-        if(pc.secondaryAttackIsPressed)
-            pc.currentGun.SecondarySkill();
+        if(pc.secondaryUseIsPressed){
+            pc.currentGun.SecondaryUse();            
+        }
     }
 
     public override void OnDisable()
@@ -42,5 +67,6 @@ public class HoldState : ItemState
         base.OnDisable();
 
         pc.itemHolder.GetComponent<Renderer>().enabled = false;
+        pc.currentGun.ResetToStartingValues();
     }
 }

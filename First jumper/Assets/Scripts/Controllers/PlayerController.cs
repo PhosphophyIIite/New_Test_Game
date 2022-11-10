@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Properties
+
     private readonly float walkingSpeed = 10f;
     public float WalkingSpeed{
         get
@@ -19,25 +21,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Variables
+
+    [Header("General variables")]
     public float moveSpeed = 10f;
     public float jumpForce = 1500f;
     public float groundHitPredictTime = 0.1f;
     public LayerMask groundLayer;
+    public Rigidbody rb;
 
-    // Camera
+    [Header("General variables")]
+    private CapsuleCollider cd;
+    private Vector2 movementVector;
+
+    [Header("Camera variables")]
     public float mouseSensitivity = 100f;
-    public new Transform camera;
+    public new Camera camera;
 
-    // Camera
+    [Header("Camera variables")]
     private float cameraPitch = 0f;
     private float mouseX;
     private float mouseY;
 
-    private Vector2 movementVector;
-    public Rigidbody rb;
-    private CapsuleCollider cd;
-
-    // FSM
+    [Header("FSM move variables")]
     public bool runningIsPressed;
     public bool jumpIsPressed;
     public MovementState initialMovementState;
@@ -47,27 +55,33 @@ public class PlayerController : MonoBehaviour
     public bool grounded = false;
     public bool groundedPredict = false;
 
-    // Movement states
+    [Header("FSM item variables")]
+    public bool useIsPressed;
+    public bool secondaryUseIsPressed;
+
+    [Header("Movement States")]
     public MovementState m_InBetweenState;
     public MovementState m_DefaultMovementState;
     public MovementState m_JumpState;
     public MovementState m_RunState;
     public MovementState m_FallState;
 
-    // Item States
+    [Header("Item States")]
     public ItemState m_DefaultItemState;
     public ItemState m_HoldState;
 
-    // Item handlers
-    public bool attackIsPressed;
-    public bool secondaryAttackIsPressed;
+    [Header("Item variables")]
     public Gun currentGun;
     public GameObject itemHolder;
 
-    // Extra condition for testing
+    [Header("FSM test variables")]
     public bool testKey = false;
     public bool testKey2 = false;
 
+    #endregion
+
+    #region Unity Methods
+    
     // Called when game starts
     public void Awake()
     {
@@ -136,19 +150,23 @@ public class PlayerController : MonoBehaviour
         Look();
     }
 
+    #endregion
+
+    #region Input System Methods
+
     //when move input get input and set movement on z axis from (w, s, forward, backward) (-1 / 0 / 1)
-    public void OnMove(InputValue movementValue)
+    public void OnMove(InputValue movementValue) // w,a,s,d
     {
         movementVector = movementValue.Get<Vector2>();
     }
 
-    public void OnRun(InputValue movementValue)
+    public void OnRun(InputValue movementValue) // left shift
     {
         runningIsPressed = movementValue.isPressed;
     }
 
     //when player presses space add force upwards
-    public void OnJump(InputValue jumpValue)
+    public void OnJump(InputValue jumpValue) // space bar
     {
         if (jumpValue.isPressed){
             PredictGroundHitInTime();
@@ -159,19 +177,19 @@ public class PlayerController : MonoBehaviour
         jumpIsPressed = jumpValue.isPressed;
     }
 
-    public void OnAttack(InputValue attackValue)
+    public void OnAttack(InputValue useValue) // left click
     {
-        attackIsPressed = attackValue.isPressed;
+        useIsPressed = useValue.isPressed;
     }
 
-    public void OnSecondaryAttack(InputValue secondaryAttackValue)
+    public void OnSecondaryAttack(InputValue secondaryUseValue) // right click
     {
-        secondaryAttackIsPressed = secondaryAttackValue.isPressed;
+        secondaryUseIsPressed = secondaryUseValue.isPressed;
     }
 
 
     // Extra condition for testing FSM
-    public void OnTestMinKey(InputValue testMinKey)
+    public void OnTestMinKey(InputValue testMinKey) // num minus
     {
         // Debug.Log("Test key is: " + testMinKey.isPressed);
         CheckGround();
@@ -180,7 +198,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Extra condition for testing FSM
-    public void OnTestNumPlusKey(InputValue testPlusKey)
+    public void OnTestNumPlusKey(InputValue testPlusKey) // num plus
     {
         // Debug.Log("Test key is: " + testPlusKey.isPressed);
         CheckGround();
@@ -189,11 +207,15 @@ public class PlayerController : MonoBehaviour
     }
 
     // Get look vector2 from mouse delta
-    public void OnLook(InputValue value)
+    public void OnLook(InputValue value) // mouse movement
     {
         mouseX = value.Get<Vector2>().x * mouseSensitivity * Time.deltaTime;
         mouseY = value.Get<Vector2>().y * mouseSensitivity * Time.deltaTime;
     }
+
+    #endregion
+
+    #region General Methods
 
     // Sets camera to mouse movement
     private void Look()
@@ -203,7 +225,7 @@ public class PlayerController : MonoBehaviour
         //set borders for looking up and down
         cameraPitch = Mathf.Clamp(cameraPitch, -90f, 90f);
 
-        camera.localEulerAngles = Vector3.right * cameraPitch;
+        camera.transform.localEulerAngles = Vector3.right * cameraPitch;
 
         //Rotate player on y axis when looking left / righ
         Vector2 mouseDelta = new Vector2(mouseX, mouseY);
@@ -239,4 +261,6 @@ public class PlayerController : MonoBehaviour
         groundedPredict = Physics.Raycast(ray, -distance, groundLayer);
         Debug.DrawRay(new Vector3(transform.position.x, cd.bounds.min.y, transform.position.z), Vector3.down * -distance, Color.red, 60f);
     }
+
+    #endregion
 }
