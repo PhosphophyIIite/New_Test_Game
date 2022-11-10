@@ -58,6 +58,12 @@ public class PlayerController : MonoBehaviour
     public ItemState m_DefaultItemState;
     public ItemState m_HoldState;
 
+    // Item handlers
+    public bool attackIsPressed;
+    public bool secondaryAttackIsPressed;
+    public Gun currentGun;
+    public GameObject itemHolder;
+
     // Extra condition for testing
     public bool testKey = false;
     public bool testKey2 = false;
@@ -99,6 +105,10 @@ public class PlayerController : MonoBehaviour
 
         if(!m_HoldState){
             m_HoldState = gameObject.GetComponent<HoldState>();
+        }
+
+        if(!itemHolder){
+            itemHolder = GameObject.Find("ItemHolder");
         }
 
         moveSpeed = WalkingSpeed;
@@ -148,6 +158,17 @@ public class PlayerController : MonoBehaviour
 
         jumpIsPressed = jumpValue.isPressed;
     }
+
+    public void OnAttack(InputValue attackValue)
+    {
+        attackIsPressed = attackValue.isPressed;
+    }
+
+    public void OnSecondaryAttack(InputValue secondaryAttackValue)
+    {
+        secondaryAttackIsPressed = secondaryAttackValue.isPressed;
+    }
+
 
     // Extra condition for testing FSM
     public void OnTestMinKey(InputValue testMinKey)

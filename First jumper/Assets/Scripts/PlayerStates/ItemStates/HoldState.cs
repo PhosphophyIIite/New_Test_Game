@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class HoldState : ItemState
 {
@@ -18,5 +19,28 @@ public class HoldState : ItemState
 
         // Debug.Log("Default State");
         pc.currentItemState = this;
+
+        Debug.Log(pc.currentGun.GetObject());
+
+        pc.itemHolder.GetComponent<Renderer>().material = pc.currentGun.texture;
+        pc.itemHolder.GetComponent<Renderer>().enabled = true;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if(pc.attackIsPressed)
+            pc.currentGun.Shoot();
+
+        if(pc.secondaryAttackIsPressed)
+            pc.currentGun.SecondarySkill();
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        pc.itemHolder.GetComponent<Renderer>().enabled = false;
     }
 }

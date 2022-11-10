@@ -7,7 +7,11 @@ public class Gun : IItem
 {
     public override void Shoot(){
         Debug.Log("Do some shooting with " + name);
-    }    
+    }
+
+    public override void SecondarySkill(){
+        Debug.Log("Think of things like: zooming in, doing a burst shot or block");
+    }
 
     public override void Reload(){
         Debug.Log("Do some reloading");

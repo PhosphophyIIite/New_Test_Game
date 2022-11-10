@@ -6,6 +6,15 @@
             "id": "b829a6c6-45a2-4f09-82fb-a2d7656f9314",
             "actions": [
                 {
+                    "name": "Look",
+                    "type": "PassThrough",
+                    "id": "378b928e-1a91-48a4-93ec-192e005903a2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "f52be945-6166-4287-a8c9-8ae7efc44bd8",
@@ -15,9 +24,36 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Run",
+                    "type": "Value",
+                    "id": "874b8c3c-d2ea-4b4c-b32f-22812fea4a79",
+                    "expectedControlType": "Digital",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Jump",
                     "type": "Value",
                     "id": "1d2680dd-389d-42e1-a706-7b7838fe8947",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Attack",
+                    "type": "Value",
+                    "id": "5fa902f2-1e77-4a45-bf37-ab7da07c0cda",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SecondaryAttack",
+                    "type": "Value",
+                    "id": "eaf3a975-1de6-471c-8061-33d3e96385a6",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -37,24 +73,6 @@
                     "type": "Value",
                     "id": "6f44048e-aa3d-4663-b823-7b5429cb55bf",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Look",
-                    "type": "PassThrough",
-                    "id": "378b928e-1a91-48a4-93ec-192e005903a2",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Run",
-                    "type": "Value",
-                    "id": "874b8c3c-d2ea-4b4c-b32f-22812fea4a79",
-                    "expectedControlType": "Digital",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -173,23 +191,12 @@
                 },
                 {
                     "name": "",
-                    "id": "622d9e6b-e631-4124-87c5-40271263d3e6",
-                    "path": "<Mouse>/delta",
+                    "id": "916d006a-2cbe-4424-86fd-2a776d0cfd84",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3efcd9be-bcb7-4438-a03c-0ffc31b911af",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -223,6 +230,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "TestNumPlusKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3efcd9be-bcb7-4438-a03c-0ffc31b911af",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "622d9e6b-e631-4124-87c5-40271263d3e6",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0196a63d-1bd3-4c19-bd29-2b17d9df8a76",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondaryAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

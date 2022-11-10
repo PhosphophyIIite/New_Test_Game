@@ -13,12 +13,16 @@ public abstract class IItem : ScriptableObject
         Debug.Log("Shoot here");
     }
 
+    public virtual void SecondarySkill(){
+        Debug.Log("Zooming, bursting, blocking or else here");
+    }
+
     public virtual void Reload(){
         Debug.Log("Reload here");
     }
 
     public virtual string GetObject(){
         Debug.Log("GetObject here");
-        return "GetObject here";
+        return "No Object Developer";
     }
 }

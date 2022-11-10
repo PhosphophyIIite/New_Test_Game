@@ -6,6 +6,9 @@ public class DefaultItemState : ItemState
     {
         base.Start();
 
+        // Currently does nothing
+        pc.initialItemState = this;
+
         itemTransitions = new List<Transition>
         {
             new Transition(() => pc.testKey, pc.m_HoldState, "DefaultItem => Hold")
