@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class IItem : ScriptableObject
@@ -24,6 +26,7 @@ public abstract class IItem : ScriptableObject
     }
 
     [SerializeField]
+    [Rename("ReloadTime in Sec")]
     private float reloadTime = 1f;
     public float ReloadTime{
         set { reloadTime = value; }

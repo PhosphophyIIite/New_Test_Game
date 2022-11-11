@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,6 +53,11 @@ public class HoldState : ItemState
 
         // if(pc.currentGun is Gun){ }  // or in the future pc.currentItem 
         // Or rename all attack moves to same name...
+        if(pc.currentGun.CurrentAmmo <= 0f){
+            pc.currentGun.Recharge();
+            return;
+        }
+
         if(pc.useIsPressed && coroutineIsNotActive){
             StartCoroutine(ShotDelay());
             pc.currentGun.Use(pc.camera, attackPoint, shotFolder);
@@ -67,6 +73,8 @@ public class HoldState : ItemState
         base.OnDisable();
 
         pc.itemHolder.GetComponent<Renderer>().enabled = false;
+
+        // Remove this later
         pc.currentGun.ResetToStartingValues();
     }
 }

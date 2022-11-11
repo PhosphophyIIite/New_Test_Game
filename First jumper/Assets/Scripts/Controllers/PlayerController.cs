@@ -85,43 +85,43 @@ public class PlayerController : MonoBehaviour
     // Called when game starts
     public void Awake()
     {
-        if(!rb){
+        if(rb == null){
             rb = GetComponent<Rigidbody>();
         }
 
-        if(!cd){
+        if(cd == null){
             cd = GetComponent<CapsuleCollider>();
         }
 
-        if(!m_InBetweenState){
+        if(m_InBetweenState == null){
             m_InBetweenState = gameObject.GetComponent<InBetweenState>();
         }
         
-        if(!m_DefaultMovementState){
+        if(m_DefaultMovementState == null){
             m_DefaultMovementState = gameObject.GetComponent<DefaultMovementState>();
         }
 
-        if(!m_JumpState){
+        if(m_JumpState == null){
             m_JumpState = gameObject.GetComponent<JumpState>();
         }
 
-        if(!m_FallState){
+        if(m_FallState == null){
             m_FallState = gameObject.GetComponent<FallState>();
         }
 
-        if(!m_RunState){
+        if(m_RunState == null){
             m_RunState = gameObject.GetComponent<RunState>();
         }
 
-        if(!m_DefaultItemState){
+        if(m_DefaultItemState == null){
             m_DefaultItemState = gameObject.GetComponent<DefaultItemState>();
         }
 
-        if(!m_HoldState){
+        if(m_HoldState == null){
             m_HoldState = gameObject.GetComponent<HoldState>();
         }
 
-        if(!itemHolder){
+        if(itemHolder == null){
             itemHolder = GameObject.Find("ItemHolder");
         }
 
@@ -129,6 +129,10 @@ public class PlayerController : MonoBehaviour
 
         //lock mouse in the middle of the screen
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void Start(){
+        currentGun = Inventory.guns[0]; // ak47 // Temp code before inventory system is added
     }
 
     // Called every physics update
@@ -186,7 +190,6 @@ public class PlayerController : MonoBehaviour
     {
         secondaryUseIsPressed = secondaryUseValue.isPressed;
     }
-
 
     // Extra condition for testing FSM
     public void OnTestMinKey(InputValue testMinKey) // num minus
