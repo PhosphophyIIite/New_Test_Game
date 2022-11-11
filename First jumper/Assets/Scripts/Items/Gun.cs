@@ -40,6 +40,13 @@ public class Gun : IItem
         set { fireRate = value; }
         get { return fireRate; }
     }
+
+    [SerializeField]
+    private bool reloadingIsTrue = false;
+    public bool ReloadingIsTrue{
+        set { reloadingIsTrue = value; }
+        get { return reloadingIsTrue; }
+    }
     
     [SerializeField]
     private float spread = 0f;
@@ -51,12 +58,13 @@ public class Gun : IItem
     private Mode mode;
     [SerializeField]
     private RifleBullet bullet;
-    [SerializeField]
-    private bool reloadingIsTrue = false;
 
-    // private IEnumerator ReloadRoutine(){    
-    //     yield return new WaitForSeconds(5f);
-    // }
+    private IEnumerator ReloadRoutine(){
+        yield return new WaitForSeconds(ReloadTime);
+
+        CurrentAmmo = MaxAmmo;
+        reloadingIsTrue = false;
+    }
 
     public override void Use(Camera camera, Transform attackPoint, Transform bulletFolder){
         // Debug.Log("Do some shooting with " + name);
@@ -107,9 +115,11 @@ public class Gun : IItem
     }
 
     public override void Recharge(){
-        Debug.Log("No more bullets");
+        // Debug.Log("Do some reloading");
 
-        // CoroutineCaller.instance.StartCoroutine(ReloadRoutine());
+        ReloadingIsTrue = true;
+
+        CoroutineCaller.instance.StartCoroutine(ReloadRoutine());
     }
     
     // Resets all changable values in the SO

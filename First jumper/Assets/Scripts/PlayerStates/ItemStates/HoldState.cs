@@ -53,6 +53,10 @@ public class HoldState : ItemState
 
         // if(pc.currentGun is Gun){ }  // or in the future pc.currentItem 
         // Or rename all attack moves to same name...
+        if(pc.currentGun.ReloadingIsTrue){
+            return;
+        }
+
         if(pc.currentGun.CurrentAmmo <= 0f){
             pc.currentGun.Recharge();
             return;
