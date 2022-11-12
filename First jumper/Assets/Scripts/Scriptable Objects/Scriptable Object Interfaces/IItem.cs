@@ -7,21 +7,21 @@ public abstract class IItem : ScriptableObject
     [SerializeField]
     private new string name = "Default Item Name Text";
     public string Name{
-        set { name = value; }
+        // set { name = value; }
         get { return name; }
     }
 
     [SerializeField]
     private Material texture;
     public Material Texture{
-        set { texture = value; }
+        // set { texture = value; }
         get { return texture; }
     }
 
     [SerializeField]
     private string controls = "Default Item Controls Text";
     public string Controls{
-        set { controls = value; }
+        // set { controls = value; }
         get { return controls; }
     }
 
@@ -29,16 +29,28 @@ public abstract class IItem : ScriptableObject
     [Rename("ReloadTime in Sec")]
     private float reloadTime = 1f;
     public float ReloadTime{
-        set { reloadTime = value; }
+        // set { reloadTime = value; }
         get { return reloadTime; }
+    }
+
+    [SerializeField]
+    [Rename("Secondary Use Delay in Sec")]
+    private float secondaryUseDelay = 1f;
+    public float SecondaryUseDelay{
+        // set { secondaryUseDelay = value; }
+        get { return secondaryUseDelay; }
     }
 
     public virtual void Use(Camera camera, Transform attackPoint, Transform ammoFolder){ //left click
         Debug.Log("Shoot here");
     }
 
+    public virtual void SecondaryUse(Camera camera, Transform attackPoint, Transform ammoFolder){ //right click
+        Debug.Log("Bursting here");
+    }
+
     public virtual void SecondaryUse(){ //right click
-        Debug.Log("Zooming, bursting, blocking or else here");
+        Debug.Log("Zooming or blocking or else here");
     }
 
     public virtual void Recharge(){

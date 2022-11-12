@@ -79,6 +79,10 @@ public class PlayerController : MonoBehaviour
     public bool testKey = false;
     public bool testKey2 = false;
 
+    [Header("FOR TESTING ONLY")]
+    public Gun ak47;
+    public Gun p90;
+
     #endregion
 
     #region Unity Methods
@@ -133,7 +137,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Start(){
-        currentGun = Inventory.guns[0]; // ak47 // Temp code before inventory system is added
+        currentGun = Inventory.guns[0];
     }
 
     // Called every physics update
@@ -269,6 +273,13 @@ public class PlayerController : MonoBehaviour
 
         groundedPredict = Physics.Raycast(ray, -distance, groundLayer);
         Debug.DrawRay(new Vector3(transform.position.x, cd.bounds.min.y, transform.position.z), Vector3.down * -distance, Color.red, 60f);
+    }
+
+    public void TestFunctionResetInventory(){
+        Debug.Log("Resetting TestGuns");
+        Inventory.guns.Clear();
+        Inventory.guns.Add(Instantiate(ak47));
+        Inventory.guns.Add(Instantiate(p90));
     }
 
     #endregion

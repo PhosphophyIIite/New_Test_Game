@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +7,14 @@ public class HoldState : ItemState
     private Transform attackPoint;
     [SerializeField]
     private Transform shotFolder;
-    private bool coroutineIsNotActive = true;
+    private bool coroutineIsActive = false;
 
-    private IEnumerator ShotDelay(){
-        coroutineIsNotActive = false;
+    private IEnumerator ShotDelay(float waitTimeInSec){
+        coroutineIsActive = true;
         
-        yield return new WaitForSeconds(pc.currentGun.FireRate);
+        yield return new WaitForSeconds(waitTimeInSec);
         
-        coroutineIsNotActive = true;
+        coroutineIsActive = false;
     }
 
     public override void Start()
@@ -45,6 +44,8 @@ public class HoldState : ItemState
 
         pc.itemHolder.GetComponent<Renderer>().material = pc.currentGun.Texture;
         pc.itemHolder.GetComponent<Renderer>().enabled = true;
+
+        pc.currentGun.MuzzleFlashInstantiated = Instantiate(pc.currentGun.MuzzleFlash, attackPoint.position, pc.camera.transform.rotation, pc.itemHolder.transform);
     }
 
     public override void Update()
@@ -52,24 +53,34 @@ public class HoldState : ItemState
         base.Update();
 
         if(pc.currentGun != null && pc.currentGun is Gun){   // Or in the future pc.currentItem // Or rename all attack moves to same name...
-            if(pc.currentGun.ReloadingIsTrue){
+            if(pc.currentGun.ReloadingIsTrue || coroutineIsActive){
                 return;
             }
 
-            if(pc.currentGun.CurrentAmmo <= 0f || pc.rechargeIsPressed){
+            if((pc.currentGun.CurrentAmmo <= 0f && pc.useIsPressed) 
+            || (pc.rechargeIsPressed && pc.currentGun.CurrentAmmo != pc.currentGun.MaxAmmo)
+            || (pc.secondaryUseIsPressed && pc.currentGun.BulletsPerBurstShot > pc.currentGun.CurrentAmmo )){
+
                 pc.currentGun.Recharge();
                 return;
             }
 
-            if(pc.useIsPressed && coroutineIsNotActive){
-                StartCoroutine(ShotDelay());
+            if(pc.useIsPressed){
+                StartCoroutine(ShotDelay(pc.currentGun.FireRate));
                 pc.currentGun.Use(pc.camera, attackPoint, shotFolder);
+                return;
             }
-
-            if(pc.secondaryUseIsPressed){
-                pc.currentGun.SecondaryUse();            
+            
+            if(pc.secondaryUseIsPressed && pc.currentGun.GunMode == Gun.Mode.Burst ){
+                StartCoroutine(ShotDelay(pc.currentGun.SecondaryUseDelay));
+                pc.currentGun.SecondaryUse(pc.camera, attackPoint, shotFolder);    
+                return;        
             }
         }
+
+        // if(pc.currentGun.ammuntionDisplay != null){
+        //     pc.currentGun.ammuntionDisplay.SetText(pc.currentGun.CurrentAmmo / pc.currentGun.BulletsPerTap + " / " + pc.currentGun.MaxAmmo / pc.currentGun.BulletsPerTap);
+        // }
     }
 
     public override void OnDisable()
@@ -78,10 +89,13 @@ public class HoldState : ItemState
 
         pc.itemHolder.GetComponent<Renderer>().enabled = false;
 
+        // This needs to be in 1 function
         pc.currentGun.StopRecharge();
+        pc.currentGun.RemoveParticles();
 
         // Remove this later
-        //pc.currentGun.ResetToStartingValues();
-        pc.currentGun = null;
+        // pc.currentGun.ResetToStartingValues();
+        // pc.currentGun = null;
+        // pc.TestFunctionResetInventory();
     }
 }
