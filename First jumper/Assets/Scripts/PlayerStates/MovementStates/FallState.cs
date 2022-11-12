@@ -17,7 +17,7 @@ public class FallState : MovementState
     {
         base.OnEnable();
 
-        // Debug.Log("FallState");
+        // Debug.Log("Fall State");
         pc.currentMovementState = this;
     }
 }

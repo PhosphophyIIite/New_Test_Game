@@ -19,7 +19,7 @@ public class DefaultMovementState : MovementState
     {
         base.OnEnable();
 
-        // Debug.Log("Default State");
+        // Debug.Log("DefaultMovement State");
         pc.currentMovementState = this;
     }
 }

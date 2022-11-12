@@ -44,6 +44,10 @@ public abstract class IItem : ScriptableObject
     public virtual void Recharge(){
         Debug.Log("Reload here");
     }
+    
+    public virtual void StopRecharge(){
+        Debug.Log("Stop Reload if condition here");
+    }
 
     public virtual string GetObject(){
         Debug.Log("GetObject here");

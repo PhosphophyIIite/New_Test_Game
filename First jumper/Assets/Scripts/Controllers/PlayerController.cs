@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     [Header("FSM item variables")]
     public bool useIsPressed;
     public bool secondaryUseIsPressed;
+    public bool rechargeIsPressed;
 
     [Header("Movement States")]
     public MovementState m_InBetweenState;
@@ -189,6 +190,11 @@ public class PlayerController : MonoBehaviour
     public void OnSecondaryAttack(InputValue secondaryUseValue) // right click
     {
         secondaryUseIsPressed = secondaryUseValue.isPressed;
+    }
+
+    public void OnRecharge(InputValue rechargeValue) // right click
+    {
+        rechargeIsPressed = rechargeValue.isPressed;
     }
 
     // Extra condition for testing FSM

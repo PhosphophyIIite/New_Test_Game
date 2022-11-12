@@ -60,6 +60,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Recharge",
+                    "type": "Value",
+                    "id": "bc96d12a-8fbc-417c-ba3d-e0cb4d482cf2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "TestMinKey",
                     "type": "Value",
                     "id": "6c0a562c-4d5d-43b6-9948-1611578bdb5a",
@@ -263,6 +272,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SecondaryAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "14d8b4c0-1cb3-4046-9aae-815be8fa02a0",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Recharge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

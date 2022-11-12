@@ -19,7 +19,7 @@ public class DefaultItemState : ItemState
     {
         base.OnEnable();
 
-        // Debug.Log("Default State");
+        // Debug.Log("DefaultItem State");
         pc.currentItemState = this;
     }
 }

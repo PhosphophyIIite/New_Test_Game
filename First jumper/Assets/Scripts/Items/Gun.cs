@@ -58,8 +58,10 @@ public class Gun : IItem
     private Mode mode;
     [SerializeField]
     private RifleBullet bullet;
+    private IEnumerator reloadRoutine;
 
     private IEnumerator ReloadRoutine(){
+        Debug.Log("Reloading...");
         yield return new WaitForSeconds(ReloadTime);
 
         CurrentAmmo = MaxAmmo;
@@ -77,17 +79,16 @@ public class Gun : IItem
         RaycastHit hit;
 
         Vector3 targetPoint;
-        if(Physics.Raycast(ray, out hit))
+        if(Physics.Raycast(ray, out hit)){
             targetPoint = hit.point;
-        else
+        } 
+        else{
             targetPoint = ray.GetPoint(75);
+        }  
         
         Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
 
-        float x = UnityEngine.Random.Range(-spread, spread);
-        float y = UnityEngine.Random.Range(-spread, spread);
-
-        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0f);
+        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(UnityEngine.Random.Range(-spread, spread), UnityEngine.Random.Range(-spread, spread), 0f);
 
         GameObject newBullet = Instantiate(bullet.bullet, attackPoint.position, Quaternion.identity, bulletFolder.transform);
         newBullet.transform.forward = directionWithSpread.normalized;
@@ -95,7 +96,6 @@ public class Gun : IItem
         newBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * bullet.bulletSpeed, ForceMode.Impulse);
 
         CurrentAmmo--;
-        Debug.Log(currentAmmo);
     }
 
     public override void SecondaryUse(){
@@ -119,11 +119,23 @@ public class Gun : IItem
 
         ReloadingIsTrue = true;
 
-        CoroutineCaller.instance.StartCoroutine(ReloadRoutine());
+        reloadRoutine = ReloadRoutine();
+        CoroutineCaller.instance.StartCoroutine(reloadRoutine);
+    }
+
+    public override void StopRecharge(){
+        if(reloadRoutine == null){
+            return;
+        }
+
+        CoroutineCaller.instance.StopCoroutine(reloadRoutine);
+
+        ReloadingIsTrue = false;
     }
     
     // Resets all changable values in the SO
     public void ResetToStartingValues(){
+        Debug.Log("Resetting Scriptable Object");
         if(maxAmmo != 0){
             currentAmmo = MaxAmmo;
         }    
@@ -132,7 +144,9 @@ public class Gun : IItem
     public override string GetObject(){
         // Debug.Log("Name: " + name + ", Ammo: " + ammo + ", Texture: " + texture + ", Firerate: " + fireRate + ", Controls: " + controls);
 
-        // Needs update...
-        return "!!!UPDATE ME!!! Name: " + name + ", Texture: " + Texture + ", Firerate: " + fireRate + ", Controls: " + Controls + " !!!UPDATE ME!!!";
+        // Keep up-to-date
+        return "Name: " + name + ", Texture: " + Texture + ", Controls: " + Controls + ", Reloadtime(S): " + ReloadTime + ", Max Ammo: " + MaxAmmo + 
+        ", Current Ammo: " + CurrentAmmo + ", Damage: " + Damage + " Shot Delay(S): " + FireRate + ", ReloadIsTrue: " + ReloadingIsTrue + ", Spread: " + Spread + 
+        ", Mode: " + mode;
     }
 }

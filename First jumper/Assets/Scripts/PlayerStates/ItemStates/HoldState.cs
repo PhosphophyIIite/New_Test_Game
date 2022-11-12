@@ -32,7 +32,7 @@ public class HoldState : ItemState
     {
         base.OnEnable();
 
-        // Debug.Log("Default State");
+        // Debug.Log("Hold State");
         pc.currentItemState = this;
 
         if(attackPoint == null){
@@ -51,24 +51,24 @@ public class HoldState : ItemState
     {
         base.Update();
 
-        // if(pc.currentGun is Gun){ }  // or in the future pc.currentItem 
-        // Or rename all attack moves to same name...
-        if(pc.currentGun.ReloadingIsTrue){
-            return;
-        }
+        if(pc.currentGun != null && pc.currentGun is Gun){   // Or in the future pc.currentItem // Or rename all attack moves to same name...
+            if(pc.currentGun.ReloadingIsTrue){
+                return;
+            }
 
-        if(pc.currentGun.CurrentAmmo <= 0f){
-            pc.currentGun.Recharge();
-            return;
-        }
+            if(pc.currentGun.CurrentAmmo <= 0f || pc.rechargeIsPressed){
+                pc.currentGun.Recharge();
+                return;
+            }
 
-        if(pc.useIsPressed && coroutineIsNotActive){
-            StartCoroutine(ShotDelay());
-            pc.currentGun.Use(pc.camera, attackPoint, shotFolder);
-        }
+            if(pc.useIsPressed && coroutineIsNotActive){
+                StartCoroutine(ShotDelay());
+                pc.currentGun.Use(pc.camera, attackPoint, shotFolder);
+            }
 
-        if(pc.secondaryUseIsPressed){
-            pc.currentGun.SecondaryUse();            
+            if(pc.secondaryUseIsPressed){
+                pc.currentGun.SecondaryUse();            
+            }
         }
     }
 
@@ -78,7 +78,10 @@ public class HoldState : ItemState
 
         pc.itemHolder.GetComponent<Renderer>().enabled = false;
 
+        pc.currentGun.StopRecharge();
+
         // Remove this later
-        pc.currentGun.ResetToStartingValues();
+        //pc.currentGun.ResetToStartingValues();
+        pc.currentGun = null;
     }
 }
