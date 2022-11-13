@@ -9,23 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e5f4128607d70f49a32155666132a39, type: 3}
-  m_Name: P90
+  m_Script: {fileID: 11500000, guid: 1581219e48cce8843b934a1c830c5bc7, type: 3}
+  m_Name: AK47
   m_EditorClassIdentifier: 
-  name: P90
-  texture: {fileID: 2100000, guid: f5a54bf8d5f933444ac3d8096c216c89, type: 2}
-  controls: Left to shoot. Right to burst. R to reload.
+  name: AK47
+  texture: {fileID: 2100000, guid: 8301cf317d7fdeb43ad78e1e437e816d, type: 2}
+  controls: Left to shoot, Right to zoom, R to reload
   reloadTime: 1
-  secondaryUseDelay: 1
-  maxAmmo: 500
-  currentAmmo: 500
-  damage: 3
-  fireRate: 0.05
+  secondaryUseDelay: 1.5
+  maxAmmo: 15
+  currentAmmo: 15
+  damage: 7
+  fireRate: 0.09
   reloadingIsTrue: 0
   bulletsPerTap: 1
-  bulletsPerBurstShot: 50
-  spread: 0.2
+  bulletsPerBurstShot: 5
+  spread: 0.5
   mode: 1
   muzzleFlash: {fileID: 3877800184521580933, guid: 0ce125a7ad968964e81678b62e1399ff, type: 3}
   bullet: {fileID: 11400000, guid: 570f2ba3e6088544385047df6614aab1, type: 2}
-  ammuntionDisplay: {fileID: 3462251395711692467, guid: ed89b98ffd1710a4ba13db090dcb9bdd, type: 3}
+  ammuntionDisplay: {fileID: 0}

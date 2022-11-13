@@ -72,22 +72,22 @@ public class PlayerController : MonoBehaviour
     public ItemState m_HoldState;
 
     [Header("Item variables")]
-    public Gun currentGun;
+    public IItem currentRifle;
     public GameObject itemHolder;
 
     [Header("FSM test variables")]
     public bool testKey = false;
     public bool testKey2 = false;
 
+    // Not Used
     [Header("FOR TESTING ONLY")]
-    public Gun ak47;
-    public Gun p90;
+    public Rifle ak47;
+    public Rifle p90;
 
     #endregion
 
     #region Unity Methods
     
-    // Called when game starts
     public void Awake()
     {
         if(rb == null){
@@ -137,10 +137,9 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Start(){
-        currentGun = Inventory.guns[0];
+        currentRifle = Inventory.items[0];
     }
 
-    // Called every physics update
     public void FixedUpdate()
     {
         //move player forwards
@@ -152,7 +151,6 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(transform.position + (direction * Time.deltaTime * moveSpeed));
     }
 
-    // Called every frame
     public void Update()
     {
         CheckGround();
@@ -275,11 +273,12 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(new Vector3(transform.position.x, cd.bounds.min.y, transform.position.z), Vector3.down * -distance, Color.red, 60f);
     }
 
+    // Not used
     public void TestFunctionResetInventory(){
         Debug.Log("Resetting TestGuns");
-        Inventory.guns.Clear();
-        Inventory.guns.Add(Instantiate(ak47));
-        Inventory.guns.Add(Instantiate(p90));
+        Inventory.items.Clear();
+        Inventory.items.Add(Instantiate(ak47));
+        Inventory.items.Add(Instantiate(p90));
     }
 
     #endregion

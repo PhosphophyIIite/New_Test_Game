@@ -1,10 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "New Gun", menuName = "Gun")]
-public class Gun : Rifle
+public class Gun : IItem
 {
     public enum Mode
     {
@@ -100,15 +98,23 @@ public class Gun : Rifle
 
         CurrentAmmo = MaxAmmo;
         if(ammuntionDisplay != null){
-            UpdateGUI();
+            UpdateGUI(ammuntionDisplay, CurrentAmmo / BulletsPerTap + " / " + MaxAmmo / BulletsPerTap);
         }
 
         reloadingIsTrue = false;
     }
 
-    public override void Use(Camera camera, Transform attackPoint, Transform bulletFolder){
-        // Debug.Log("Do some shooting with " + name);
+    protected bool shotDelayRoutineIsActive = false;
+    protected IEnumerator ShotDelay(float waitTimeInSec){
+        shotDelayRoutineIsActive = true;
+        
+        yield return new WaitForSeconds(waitTimeInSec);
+        
+        shotDelayRoutineIsActive = false;
+    }
 
+    public void Shoot(Camera camera, Transform attackPoint, Transform bulletFolder){
+        // If checked in child class should never be called.
         if(CurrentAmmo <= 0f || reloadingIsTrue){
             return;
         }
@@ -125,54 +131,54 @@ public class Gun : Rifle
         newBullet.transform.forward = directionWithSpread.normalized;
 
         newBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * bullet.bulletSpeed, ForceMode.Impulse);
-        // newBullet.GetComponent<Rigidbody>().AddForce(camera.transform.up * upwardForce, ForceMode.Impulse); // If you have bouncing bullets
+        // newBullet.GetComponent<Rigidbody>().AddForce(camera.transform.up * upwardForce, ForceMode.Impulse); // If you have bouncing bullets // Add this to Shoot function with upforce as parameter
 
         MuzzleFlashInstantiated.GetComponent<ParticleSystem>().Play();
 
         CurrentAmmo--;
 
         if(ammuntionDisplay != null){
-            UpdateGUI();
+            UpdateGUI(ammuntionDisplay, CurrentAmmo / BulletsPerTap + " / " + MaxAmmo / BulletsPerTap);
         }
     }
 
-    private void UpdateGUI(){
-        ammuntionDisplay.SetText(CurrentAmmo / BulletsPerTap + " / " + MaxAmmo / BulletsPerTap);
+    private void UpdateGUI(TextMeshProUGUI display, string text){
+        display.SetText(text);
     }
 
     // Burst only
-    public override void SecondaryUse(Camera camera, Transform attackPoint, Transform bulletFolder){
+    public void Burst(Camera camera, Transform attackPoint, Transform bulletFolder){
         if(mode == Mode.Burst){   	  
             if(CurrentAmmo >= BulletsPerBurstShot){
                 for(int i = 0; i < BulletsPerBurstShot; i++){
-                    Use(camera, attackPoint, bulletFolder);
+                    Shoot(camera, attackPoint, bulletFolder);
                 }
             }
         }
     }
 
-    public override void SecondaryUse()
+    public void Zoom()
     {
         if(mode == Mode.Zoom){
             // Debug.Log("Zoom");
         }
+    }
 
+    public void Block()
+    {
         if(mode == Mode.Block){
             // Debug.Log("Block");
         }
     }
 
     public override void Recharge(){
-        // Debug.Log("Do some reloading");
-
         ReloadingIsTrue = true;
 
         reloadRoutine = ReloadRoutine();
         CoroutineCaller.instance.StartCoroutine(reloadRoutine);
     }
 
-    // Maybe add to reset to starting values later
-    public override void StopRecharge(){
+    protected void StopRecharge(){
         ReloadingIsTrue = false;
 
         if(reloadRoutine == null){
@@ -182,7 +188,7 @@ public class Gun : Rifle
         CoroutineCaller.instance.StopCoroutine(reloadRoutine);
     }
 
-    public void RemoveParticles(){
+    protected void RemoveParticles(){
         Destroy(MuzzleFlashInstantiated);
     }
 

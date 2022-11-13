@@ -725,8 +725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf5e731df6b0fa43ad6cd82824d9031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ak47: {fileID: 11400000, guid: d5995e72063a7be4baee412e16c01572, type: 2}
-  p90: {fileID: 11400000, guid: 16bac1e5083812948afe4c2f81cf3fa0, type: 2}
+  ak47: {fileID: 11400000, guid: 0f5818795717b494eaca9564db16f430, type: 2}
+  p90: {fileID: 11400000, guid: c85aa9e701f053d409b39cd99983b2ca, type: 2}
 --- !u!1 &453866102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,7 +1901,7 @@ MonoBehaviour:
   m_FallState: {fileID: 0}
   m_DefaultItemState: {fileID: 0}
   m_HoldState: {fileID: 0}
-  currentGun: {fileID: 11400000, guid: d5995e72063a7be4baee412e16c01572, type: 2}
+  currentRifle: {fileID: 0}
   itemHolder: {fileID: 548550143}
   testKey: 0
   testKey2: 0

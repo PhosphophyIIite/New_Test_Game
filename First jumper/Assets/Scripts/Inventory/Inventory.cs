@@ -5,19 +5,19 @@ public class Inventory : MonoBehaviour
 {
     #region Public Variables
 
-    public static List<Gun> guns = new List<Gun>();
-    public Gun ak47; // Remove this when implementing invetory system
-    public Gun p90; // Remove this when implementing invetory system
+    public static List<IItem> items = new List<IItem>();
+    public Rifle ak47; // Remove this when implementing invetory system
+    public Rifle p90; // Remove this when implementing invetory system
 
     #endregion
 
     #region Unity Methods
 
     public void Awake(){
-        guns.Add(Instantiate(ak47));
-        guns.Add(Instantiate(p90));
+        items.Add(Instantiate(ak47));
+        items.Add(Instantiate(p90));
         
-        foreach(Gun gun in guns){
+        foreach(IItem gun in items){
             Debug.Log(gun);
         }
     }

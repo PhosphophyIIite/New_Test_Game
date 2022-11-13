@@ -41,9 +41,17 @@ public abstract class IItem : ScriptableObject
         get { return secondaryUseDelay; }
     }
 
-    public virtual void Use(Camera camera, Transform attackPoint, Transform ammoFolder){ //left click
-        Debug.Log("Shoot here");
+    // Rifle : Gun
+    public virtual void EnableItem(Transform attackPoint, Transform itemHolder, Transform shotFolder, Camera camera){
+        Debug.Log("Put OnEnable Logic here");
     }
+
+    // Rifle : Gun
+    public virtual void Use(bool useIsPressed, bool rechargeIsPressed, bool secondaryUseIsPressed, Camera camera, Transform attackPoint, Transform ammoFolder){ //left click
+        Debug.Log("Rifle Use here");
+    }
+
+    // Make more Use functions for different Items
 
     public virtual void SecondaryUse(Camera camera, Transform attackPoint, Transform ammoFolder){ //right click
         Debug.Log("Bursting here");
@@ -57,8 +65,8 @@ public abstract class IItem : ScriptableObject
         Debug.Log("Reload here");
     }
     
-    public virtual void StopRecharge(){
-        Debug.Log("Stop Reload if condition here");
+    public virtual void DisableItemHandler(){
+        Debug.Log("Stop coroutines, set booleans to false, remove insatniated objects etc...");
     }
 
     public virtual string GetObject(){
