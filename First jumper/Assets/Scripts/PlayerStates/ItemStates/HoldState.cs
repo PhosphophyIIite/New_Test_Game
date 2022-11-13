@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class HoldState : ItemState
 {
@@ -45,7 +46,13 @@ public class HoldState : ItemState
         pc.itemHolder.GetComponent<Renderer>().material = pc.currentGun.Texture;
         pc.itemHolder.GetComponent<Renderer>().enabled = true;
 
-        pc.currentGun.MuzzleFlashInstantiated = Instantiate(pc.currentGun.MuzzleFlash, attackPoint.position, pc.camera.transform.rotation, pc.itemHolder.transform);
+        if(pc.currentGun.MuzzleFlashInstantiated == null){
+            pc.currentGun.MuzzleFlashInstantiated = Instantiate(pc.currentGun.MuzzleFlash, attackPoint.position, pc.camera.transform.rotation, pc.itemHolder.transform);
+        }
+        
+        if(pc.currentGun.ammuntionDisplay == null){
+            pc.currentGun.ammuntionDisplay = GameObject.Find("AmmoDisplay").GetComponent<TextMeshProUGUI>();
+        }
     }
 
     public override void Update()
@@ -77,10 +84,6 @@ public class HoldState : ItemState
                 return;        
             }
         }
-
-        // if(pc.currentGun.ammuntionDisplay != null){
-        //     pc.currentGun.ammuntionDisplay.SetText(pc.currentGun.CurrentAmmo / pc.currentGun.BulletsPerTap + " / " + pc.currentGun.MaxAmmo / pc.currentGun.BulletsPerTap);
-        // }
     }
 
     public override void OnDisable()

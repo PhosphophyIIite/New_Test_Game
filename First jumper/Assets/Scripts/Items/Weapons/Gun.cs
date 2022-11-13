@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "New Gun", menuName = "Gun")]
-public class Gun : IItem
+public class Gun : Rifle
 {
     public enum Mode
     {
@@ -78,23 +78,20 @@ public class Gun : IItem
     }
 
     [SerializeField]
-    private RifleBullet bullet;
-    private IEnumerator reloadRoutine;
-
-
-    // Maybe move this later
-    [SerializeField]
-    private ParticleSystem muzzleFlash;
-    public ParticleSystem MuzzleFlash{
+    private GameObject muzzleFlash;
+    public GameObject MuzzleFlash{
         get { return muzzleFlash; }
     }
 
-    private ParticleSystem muzzleFlashInstantiated;
-    public ParticleSystem MuzzleFlashInstantiated{
+    private GameObject muzzleFlashInstantiated;
+    public GameObject MuzzleFlashInstantiated{
         set { muzzleFlashInstantiated = value; }
         get { return muzzleFlashInstantiated; }
     }
-            
+
+    [SerializeField]
+    private RifleBullet bullet;
+    private IEnumerator reloadRoutine;
     public TextMeshProUGUI ammuntionDisplay;
 
     private IEnumerator ReloadRoutine(){
@@ -102,9 +99,12 @@ public class Gun : IItem
         yield return new WaitForSeconds(ReloadTime);
 
         CurrentAmmo = MaxAmmo;
+        if(ammuntionDisplay != null){
+            UpdateGUI();
+        }
+
         reloadingIsTrue = false;
     }
-
 
     public override void Use(Camera camera, Transform attackPoint, Transform bulletFolder){
         // Debug.Log("Do some shooting with " + name);
@@ -127,9 +127,17 @@ public class Gun : IItem
         newBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * bullet.bulletSpeed, ForceMode.Impulse);
         // newBullet.GetComponent<Rigidbody>().AddForce(camera.transform.up * upwardForce, ForceMode.Impulse); // If you have bouncing bullets
 
-        MuzzleFlashInstantiated.Play();
+        MuzzleFlashInstantiated.GetComponent<ParticleSystem>().Play();
 
         CurrentAmmo--;
+
+        if(ammuntionDisplay != null){
+            UpdateGUI();
+        }
+    }
+
+    private void UpdateGUI(){
+        ammuntionDisplay.SetText(CurrentAmmo / BulletsPerTap + " / " + MaxAmmo / BulletsPerTap);
     }
 
     // Burst only
@@ -175,8 +183,7 @@ public class Gun : IItem
     }
 
     public void RemoveParticles(){
-        // Destroy(MuzzleFlashInstantiated); // I honestly got no clue why this doesn't work
-        GameObject.Destroy(GameObject.Find(MuzzleFlashInstantiated.name));
+        Destroy(MuzzleFlashInstantiated);
     }
 
     public override string GetObject(){
