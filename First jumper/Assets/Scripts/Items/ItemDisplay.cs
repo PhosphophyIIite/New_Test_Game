@@ -13,6 +13,8 @@ public class ItemDisplay : MonoBehaviour
 
         gun.GetObject();
 
-        GetComponent<Renderer>().material = gun.Texture;
+        if(gun.ItemModel != null && gun.ItemModel is GameObject){
+            Instantiate(gun.ItemModel);
+        }
     }
 }

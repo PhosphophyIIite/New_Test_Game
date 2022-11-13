@@ -231,6 +231,10 @@ public class Gun : IItem
         Destroy(MuzzleFlashInstantiated);
     }
 
+    protected void RemoveGameModels(){
+        Destroy(ItemModelInstantiated);
+    }
+
     protected void DisableUI(GameObject crossHairGameObject){
         crossHairGameObject.SetActive(false);
     }
@@ -240,7 +244,7 @@ public class Gun : IItem
         // Debug.Log("Name: " + name + ", Ammo: " + ammo + ", Texture: " + texture + ", Firerate: " + fireRate + ", Controls: " + controls);
 
         // Keep up-to-date
-        return "Name: " + name + ", Texture: " + Texture + ", Controls: " + Controls + ", Reloadtime(S): " + RechargeTime + ", Max Ammo: " + MaxAmmo + 
+        return "Name: " + name + ", Model: " + ItemModel + ", Controls: " + Controls + ", Reloadtime(S): " + RechargeTime + ", Max Ammo: " + MaxAmmo + 
         ", Current Ammo: " + CurrentAmmo + ", Damage: " + Damage + " Shot Delay(S): " + FireRate + ", Bullets per BurstShot: " + BulletsPerBurstShot + 
         ", SecondaryUse Delay: " + SecondaryUseDelay + ", ReloadIsTrue: " + ReloadingIsTrue + ", Spread: " + Spread + ", Mode: " + GunMode;
     }

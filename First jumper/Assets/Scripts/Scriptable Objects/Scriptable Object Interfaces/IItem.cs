@@ -13,10 +13,16 @@ public abstract class IItem : ScriptableObject
     }
 
     [SerializeField]
-    private Material texture;
-    public Material Texture{
+    private GameObject itemModel;
+    public GameObject ItemModel{
         // set { texture = value; }
-        get { return texture; }
+        get { return itemModel; }
+    }
+
+    private GameObject itemModelInstantiated;
+    public GameObject ItemModelInstantiated{
+        set { itemModelInstantiated = value; }
+        get { return itemModelInstantiated; }
     }
 
     [SerializeField]

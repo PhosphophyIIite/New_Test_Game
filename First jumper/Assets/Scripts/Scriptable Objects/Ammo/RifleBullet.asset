@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b72352bb95b28846a96985ae3b9b004, type: 3}
   m_Name: RifleBullet
   m_EditorClassIdentifier: 
-  bullet: {fileID: 1433344755067457840, guid: a2c53ea996a64324a9773c1b3920901e, type: 3}
+  bullet: {fileID: 1056241392528695528, guid: a2c53ea996a64324a9773c1b3920901e, type: 3}
   bulletSpeed: 100

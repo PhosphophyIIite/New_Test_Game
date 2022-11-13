@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class Rifle : Gun
 {
     public override void EnableItem(Transform attackPoint, Transform itemHolder, Transform shotFolder, Camera camera, GameObject crossHair){
-        itemHolder.GetComponent<Renderer>().material = Texture;
-        itemHolder.GetComponent<Renderer>().enabled = true;
+        ItemModelInstantiated = Instantiate(ItemModel, itemHolder.transform);
 
         crossHair.SetActive(true);
 
@@ -73,6 +72,7 @@ public class Rifle : Gun
     {
         StopRecharge();
         RemoveParticles();
+        RemoveGameModels();
         DisableUI(crossHair);
     }
 }

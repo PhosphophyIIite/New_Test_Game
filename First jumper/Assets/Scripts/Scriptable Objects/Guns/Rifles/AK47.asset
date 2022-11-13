@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AK47
   m_EditorClassIdentifier: 
   name: AK47
-  texture: {fileID: 2100000, guid: 8301cf317d7fdeb43ad78e1e437e816d, type: 2}
+  itemModel: {fileID: 5420705701398812991, guid: 1534d498f1a703949a868ffc470d5eb3, type: 3}
   controls: Left to shoot, Right to zoom, R to reload
   rechargeTime: 1
   secondaryUseDelay: 1.5
