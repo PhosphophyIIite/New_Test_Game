@@ -43,11 +43,16 @@ public class Gun : IItem
         get { return fireRate; }
     }
 
-    [SerializeField]
     private bool reloadingIsTrue = false;
     protected bool ReloadingIsTrue{
         set { reloadingIsTrue = value; }
         get { return reloadingIsTrue; }
+    }
+
+    private bool zoomIsTrue = false;
+    protected bool ZoomIsTrue{
+        set { zoomIsTrue = value; }
+        get { return zoomIsTrue; }
     }
 
     [SerializeField]
@@ -121,6 +126,8 @@ public class Gun : IItem
         get { return shotDelayRoutineIsActive; }
     }
 
+    public Animator animator;
+
     #endregion
 
     #region Functions
@@ -193,16 +200,17 @@ public class Gun : IItem
         }
     }
 
-    public void Zoom(Camera camera, float targetZoom, float zoomDuration)
+    public void Zoom()
     {
         if(mode == Mode.Zoom){
+            animator.SetBool("IsScoped", ZoomIsTrue);
         }
     }
 
     public void Block()
     {
         if(mode == Mode.Block){
-            // Debug.Log("Block");
+
         }
     }
 

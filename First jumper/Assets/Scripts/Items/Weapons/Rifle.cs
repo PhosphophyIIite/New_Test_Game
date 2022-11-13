@@ -21,6 +21,10 @@ public class Rifle : Gun
         if(AmmuntionDisplay == null){
             AmmuntionDisplay = GameObject.Find("AmmoDisplay").GetComponent<TextMeshProUGUI>();
         }
+
+        if(animator == null){
+            animator = itemHolder.GetComponent<Animator>();
+        }
     }
     
     public override void Use(bool useIsPressed, bool rechargeIsPressed, bool secondaryUseIsPressed, Camera camera, Transform attackPoint, Transform shotFolder){
@@ -51,12 +55,16 @@ public class Rifle : Gun
             }
 
             if(GunMode == Mode.Zoom){
-                Debug.Log("Zoom");
+                if(!ZoomIsTrue){
+                    ZoomIsTrue = true;
+                    Zoom();
+                }
                 return;
             }
             
             if(GunMode == Mode.Block){
                 Debug.Log("Block");
+                Block();
                 return;
             }
   
