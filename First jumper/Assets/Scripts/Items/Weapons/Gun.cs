@@ -193,10 +193,9 @@ public class Gun : IItem
         }
     }
 
-    public void Zoom()
+    public void Zoom(Camera camera, float targetZoom, float zoomDuration)
     {
         if(mode == Mode.Zoom){
-            // Debug.Log("Zoom");
         }
     }
 

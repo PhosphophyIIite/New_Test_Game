@@ -44,11 +44,27 @@ public class Rifle : Gun
         }
         
         // Maybe move this to new function
-        if(secondaryUseIsPressed && GunMode == Mode.Burst){
-            CoroutineCaller.instance.StartCoroutine(ShotDelay(SecondaryUseDelay));
-            Burst(camera, attackPoint, shotFolder);    
+        if(secondaryUseIsPressed){
+            if(GunMode == Mode.Burst){
+                CoroutineCaller.instance.StartCoroutine(ShotDelay(SecondaryUseDelay));
+                Burst(camera, attackPoint, shotFolder);  
+                return;
+            }
+
+            if(GunMode == Mode.Zoom){
+                Debug.Log("Zoom");
+                return;
+            }
+            
+            if(GunMode == Mode.Block){
+                Debug.Log("Block");
+                return;
+            }
+  
             return;        
         }
+
+        // Camera camera, float targetZoom, float zoomDuration
 
         SetGUIColor(Color.black, CrossHair);
     }
