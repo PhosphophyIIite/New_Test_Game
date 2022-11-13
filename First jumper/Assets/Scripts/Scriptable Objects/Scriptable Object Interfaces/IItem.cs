@@ -27,10 +27,10 @@ public abstract class IItem : ScriptableObject
 
     [SerializeField]
     [Rename("ReloadTime in Sec")]
-    private float reloadTime = 1f;
-    public float ReloadTime{
+    private float rechargeTime = 1f;
+    public float RechargeTime{
         // set { reloadTime = value; }
-        get { return reloadTime; }
+        get { return rechargeTime; }
     }
 
     [SerializeField]
@@ -53,6 +53,7 @@ public abstract class IItem : ScriptableObject
 
     // Make more Use functions for different Items
 
+    // Rifle : Gun
     public virtual void SecondaryUse(Camera camera, Transform attackPoint, Transform ammoFolder){ //right click
         Debug.Log("Bursting here");
     }

@@ -5,7 +5,8 @@ public abstract class IBullet : ScriptableObject
     public GameObject bullet;
     public float bulletSpeed; 
 
-    public virtual void OnEnable(){
+    // Put this function in Update() to make bullet noise
+    public virtual void PlaySound(){
         // Play sound effect
     }
 }

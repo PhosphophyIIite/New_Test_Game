@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
     public ItemState m_HoldState;
 
     [Header("Item variables")]
-    public IItem currentRifle;
+    public IItem currentItem;
     public GameObject itemHolder;
 
     [Header("FSM test variables")]
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Start(){
-        currentRifle = Inventory.items[0];
+        currentItem = Inventory.items[0];
     }
 
     public void FixedUpdate()

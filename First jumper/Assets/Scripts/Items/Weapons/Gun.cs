@@ -11,23 +11,25 @@ public class Gun : IItem
         Block
     }
 
+    #region Variables
+
     [SerializeField]
     private int maxAmmo = 0;
-    public int MaxAmmo{
+    protected int MaxAmmo{
         // set { maxAmmo = value; }
         get { return maxAmmo; }
     }
 
     [SerializeField]
     private int currentAmmo = 0;
-    public int CurrentAmmo{
+    protected int CurrentAmmo{
         set { currentAmmo = value; }
         get { return currentAmmo; }
     }
 
     [SerializeField]
     private float damage = 0f;
-    public float Damage{
+    protected float Damage{
         // set { damage = value; }
         get { return damage; }
     }
@@ -35,66 +37,83 @@ public class Gun : IItem
     [Rename("Shot delay in Seconds")]
     [SerializeField]
     private float fireRate = 0f;
-    public float FireRate{
+    protected float FireRate{
         // set { fireRate = value; }
         get { return fireRate; }
     }
 
     [SerializeField]
     private bool reloadingIsTrue = false;
-    public bool ReloadingIsTrue{
+    protected bool ReloadingIsTrue{
         set { reloadingIsTrue = value; }
         get { return reloadingIsTrue; }
     }
 
     [SerializeField]
     private float bulletsPerTap = 1f;
-    public float BulletsPerTap{
+    protected float BulletsPerTap{
         // set { bulletsPerTap = value; }
         get { return bulletsPerTap; }
     }
 
     [SerializeField]
     private float bulletsPerBurstShot = 1f;
-    public float BulletsPerBurstShot{
+    protected float BulletsPerBurstShot{
         // set { bulletsPerBurstShot = value; }
         get { return bulletsPerBurstShot; }
     }
     
     [SerializeField]
     private float spread = 0f;
-    public float Spread{
+    private float Spread{
         // set { spread = value; }
         get { return spread; }
     }
 
     [SerializeField]
     private Mode mode;
-    public Mode GunMode{
+    protected Mode GunMode{
         // set { mode = value; }
         get { return mode; }
     }
 
     [SerializeField]
     private GameObject muzzleFlash;
-    public GameObject MuzzleFlash{
+    protected GameObject MuzzleFlash{
         get { return muzzleFlash; }
     }
 
     private GameObject muzzleFlashInstantiated;
-    public GameObject MuzzleFlashInstantiated{
+    protected GameObject MuzzleFlashInstantiated{
         set { muzzleFlashInstantiated = value; }
         get { return muzzleFlashInstantiated; }
     }
 
     [SerializeField]
-    private RifleBullet bullet;
-    private IEnumerator reloadRoutine;
-    public TextMeshProUGUI ammuntionDisplay;
+    private IBullet bullet;
+    private IBullet Bullet{
+        get { return bullet; }
+    }
 
-    private IEnumerator ReloadRoutine(){
+    private IEnumerator reloadRoutine;
+    private IEnumerator ReloadRoutine{
+        set { reloadRoutine = value; }
+        get { return reloadRoutine; }
+    }
+
+    private TextMeshProUGUI ammuntionDisplay;
+    protected TextMeshProUGUI AmmuntionDisplay{
+        set { ammuntionDisplay = value; }
+        get { return ammuntionDisplay; }
+    }
+
+    #endregion
+
+    #region Functions
+
+    private IEnumerator ReloadCoRoutine(){
         Debug.Log("Reloading...");
-        yield return new WaitForSeconds(ReloadTime);
+        yield return new WaitForSeconds(RechargeTime);
 
         CurrentAmmo = MaxAmmo;
         if(ammuntionDisplay != null){
@@ -174,7 +193,7 @@ public class Gun : IItem
     public override void Recharge(){
         ReloadingIsTrue = true;
 
-        reloadRoutine = ReloadRoutine();
+        reloadRoutine = ReloadCoRoutine();
         CoroutineCaller.instance.StartCoroutine(reloadRoutine);
     }
 
@@ -192,12 +211,15 @@ public class Gun : IItem
         Destroy(MuzzleFlashInstantiated);
     }
 
+    // Maybe move this to child class? Maybe Find a library for this? Maybe only show public and protected variables?
     public override string GetObject(){
         // Debug.Log("Name: " + name + ", Ammo: " + ammo + ", Texture: " + texture + ", Firerate: " + fireRate + ", Controls: " + controls);
 
         // Keep up-to-date
-        return "Name: " + name + ", Texture: " + Texture + ", Controls: " + Controls + ", Reloadtime(S): " + ReloadTime + ", Max Ammo: " + MaxAmmo + 
+        return "Name: " + name + ", Texture: " + Texture + ", Controls: " + Controls + ", Reloadtime(S): " + RechargeTime + ", Max Ammo: " + MaxAmmo + 
         ", Current Ammo: " + CurrentAmmo + ", Damage: " + Damage + " Shot Delay(S): " + FireRate + ", Bullets per BurstShot: " + BulletsPerBurstShot + 
         ", SecondaryUse Delay: " + SecondaryUseDelay + ", ReloadIsTrue: " + ReloadingIsTrue + ", Spread: " + Spread + ", Mode: " + GunMode;
     }
+
+    #endregion
 }

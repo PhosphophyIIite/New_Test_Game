@@ -32,14 +32,14 @@ public class HoldState : ItemState
             shotFolder = GameObject.Find("ShotFolder").transform;
         }
 
-        pc.currentRifle.EnableItem(attackPoint, pc.itemHolder.transform, shotFolder, pc.camera);
+        pc.currentItem.EnableItem(attackPoint, pc.itemHolder.transform, shotFolder, pc.camera);
     }
 
     public override void Update()
     {
         base.Update();
 
-        pc.currentRifle.Use(pc.useIsPressed, pc.rechargeIsPressed, pc.secondaryUseIsPressed, pc.camera, attackPoint, shotFolder);
+        pc.currentItem.Use(pc.useIsPressed, pc.rechargeIsPressed, pc.secondaryUseIsPressed, pc.camera, attackPoint, shotFolder);
     }
 
     public override void OnDisable()
@@ -48,7 +48,7 @@ public class HoldState : ItemState
 
         pc.itemHolder.GetComponent<Renderer>().enabled = false;
 
-        pc.currentRifle.DisableItemHandler();
+        pc.currentItem.DisableItemHandler();
 
         // Remove this later
         // pc.currentGun.ResetToStartingValues();

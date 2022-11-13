@@ -12,8 +12,8 @@ public class Rifle : Gun
             MuzzleFlashInstantiated = Instantiate(MuzzleFlash, attackPoint.position, camera.transform.rotation, itemHolder.transform);
         }
         
-        if(ammuntionDisplay == null){
-            ammuntionDisplay = GameObject.Find("AmmoDisplay").GetComponent<TextMeshProUGUI>();
+        if(AmmuntionDisplay == null){
+            AmmuntionDisplay = GameObject.Find("AmmoDisplay").GetComponent<TextMeshProUGUI>();
         }
     }
     
