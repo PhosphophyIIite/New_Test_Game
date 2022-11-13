@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Gun : IItem
 {
@@ -77,6 +78,13 @@ public class Gun : IItem
         get { return mode; }
     }
 
+    private Image crossHair;
+    protected Image CrossHair{
+        set { crossHair = value; }
+        get { return crossHair; }
+    }
+
+
     [SerializeField]
     private GameObject muzzleFlash;
     protected GameObject MuzzleFlash{
@@ -107,12 +115,20 @@ public class Gun : IItem
         get { return ammuntionDisplay; }
     }
 
+    private bool shotDelayRoutineIsActive = false;
+    protected bool ShotDelayRoutineIsActive{
+        set { shotDelayRoutineIsActive = value; }
+        get { return shotDelayRoutineIsActive; }
+    }
+
     #endregion
 
     #region Functions
 
     private IEnumerator ReloadCoRoutine(){
         Debug.Log("Reloading...");
+        SetGUIColor(Color.black, CrossHair);
+
         yield return new WaitForSeconds(RechargeTime);
 
         CurrentAmmo = MaxAmmo;
@@ -123,7 +139,6 @@ public class Gun : IItem
         reloadingIsTrue = false;
     }
 
-    protected bool shotDelayRoutineIsActive = false;
     protected IEnumerator ShotDelay(float waitTimeInSec){
         shotDelayRoutineIsActive = true;
         
@@ -137,6 +152,8 @@ public class Gun : IItem
         if(CurrentAmmo <= 0f || reloadingIsTrue){
             return;
         }
+
+        SetGUIColor(Color.magenta, CrossHair);
         
         Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
@@ -197,6 +214,10 @@ public class Gun : IItem
         CoroutineCaller.instance.StartCoroutine(reloadRoutine);
     }
 
+    protected void SetGUIColor(Color color, Image guiElement){
+        guiElement.color = color;
+    }
+
     protected void StopRecharge(){
         ReloadingIsTrue = false;
 
@@ -209,6 +230,10 @@ public class Gun : IItem
 
     protected void RemoveParticles(){
         Destroy(MuzzleFlashInstantiated);
+    }
+
+    protected void DisableUI(GameObject crossHairGameObject){
+        crossHairGameObject.SetActive(false);
     }
 
     // Maybe move this to child class? Maybe Find a library for this? Maybe only show public and protected variables?

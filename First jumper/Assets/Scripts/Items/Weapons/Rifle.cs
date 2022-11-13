@@ -1,15 +1,22 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Rifle", menuName = "Rifle")]
 public class Rifle : Gun
 {
-    public override void EnableItem(Transform attackPoint, Transform itemHolder, Transform shotFolder, Camera camera){
+    public override void EnableItem(Transform attackPoint, Transform itemHolder, Transform shotFolder, Camera camera, GameObject crossHair){
         itemHolder.GetComponent<Renderer>().material = Texture;
         itemHolder.GetComponent<Renderer>().enabled = true;
 
+        crossHair.SetActive(true);
+
         if(MuzzleFlashInstantiated == null){
             MuzzleFlashInstantiated = Instantiate(MuzzleFlash, attackPoint.position, camera.transform.rotation, itemHolder.transform);
+        }
+
+        if(CrossHair == null){
+            CrossHair = crossHair.GetComponent<Image>();
         }
         
         if(AmmuntionDisplay == null){
@@ -18,7 +25,7 @@ public class Rifle : Gun
     }
     
     public override void Use(bool useIsPressed, bool rechargeIsPressed, bool secondaryUseIsPressed, Camera camera, Transform attackPoint, Transform shotFolder){
-        if(ReloadingIsTrue || shotDelayRoutineIsActive){
+        if(ReloadingIsTrue || ShotDelayRoutineIsActive){
             return;
         }
 
@@ -42,11 +49,14 @@ public class Rifle : Gun
             Burst(camera, attackPoint, shotFolder);    
             return;        
         }
+
+        SetGUIColor(Color.black, CrossHair);
     }
 
-    public override void DisableItemHandler()
+    public override void DisableItem(GameObject crossHair)
     {
         StopRecharge();
         RemoveParticles();
+        DisableUI(crossHair);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class IItem : ScriptableObject
 {    
@@ -42,7 +43,7 @@ public abstract class IItem : ScriptableObject
     }
 
     // Rifle : Gun
-    public virtual void EnableItem(Transform attackPoint, Transform itemHolder, Transform shotFolder, Camera camera){
+    public virtual void EnableItem(Transform attackPoint, Transform itemHolder, Transform shotFolder, Camera camera, GameObject crossHair){
         Debug.Log("Put OnEnable Logic here");
     }
 
@@ -66,7 +67,7 @@ public abstract class IItem : ScriptableObject
         Debug.Log("Reload here");
     }
     
-    public virtual void DisableItemHandler(){
+    public virtual void DisableItem(GameObject uiElement){
         Debug.Log("Stop coroutines, set booleans to false, remove insatniated objects etc...");
     }
 
