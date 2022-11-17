@@ -55,9 +55,20 @@ public class Rifle : Gun
             }
 
             if(GunMode == Mode.Zoom){
-                if(!ZoomIsTrue){
-                    ZoomIsTrue = true;
-                    Zoom();
+                if(!ShotDelayRoutineIsActive){ // Give unique boolean to fix shooting bug when zooming
+                    if(!ZoomIsTrue){
+                        ZoomIsTrue = true;
+                        Zoom();
+                        CoroutineCaller.instance.StartCoroutine(ShotDelay(SecondaryUseDelay));
+                        return;
+                    }
+                     
+                    if(ZoomIsTrue){
+                        ZoomIsTrue = false;
+                        Zoom();
+                        CoroutineCaller.instance.StartCoroutine(ShotDelay(SecondaryUseDelay));
+                        return;
+                    }
                 }
                 return;
             }

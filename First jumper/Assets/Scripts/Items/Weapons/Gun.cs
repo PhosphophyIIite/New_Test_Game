@@ -140,18 +140,19 @@ public class Gun : IItem
 
         CurrentAmmo = MaxAmmo;
         if(ammuntionDisplay != null){
-            UpdateGUI(ammuntionDisplay, CurrentAmmo / BulletsPerTap + " / " + MaxAmmo / BulletsPerTap);
+            UpdateGUI(AmmuntionDisplay, CurrentAmmo / BulletsPerTap + " / " + MaxAmmo / BulletsPerTap);
         }
 
-        reloadingIsTrue = false;
+        ReloadingIsTrue = false;
     }
 
     protected IEnumerator ShotDelay(float waitTimeInSec){
-        shotDelayRoutineIsActive = true;
+        Debug.Log("In Routine");
+        ShotDelayRoutineIsActive = true;
         
         yield return new WaitForSeconds(waitTimeInSec);
-        
-        shotDelayRoutineIsActive = false;
+        Debug.Log("Out of Routine");
+        ShotDelayRoutineIsActive = false;
     }
 
     public void Shoot(Camera camera, Transform attackPoint, Transform bulletFolder){
@@ -204,6 +205,7 @@ public class Gun : IItem
     {
         if(mode == Mode.Zoom){
             animator.SetBool("IsScoped", ZoomIsTrue);
+            return;
         }
     }
 

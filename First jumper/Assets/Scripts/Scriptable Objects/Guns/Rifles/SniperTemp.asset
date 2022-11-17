@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1581219e48cce8843b934a1c830c5bc7, type: 3}
-  m_Name: AK47
+  m_Name: SniperTemp
   m_EditorClassIdentifier: 
-  name: AK47
-  itemModel: {fileID: 5420705701398812991, guid: 1534d498f1a703949a868ffc470d5eb3, type: 3}
-  controls: Left to shoot, Right to zoom, R to reload
-  rechargeTime: 1
-  secondaryUseDelay: 1
-  maxAmmo: 1000
-  currentAmmo: 15
-  damage: 7
-  fireRate: 0.09
+  name: Sniper
+  itemModel: {fileID: 2715161917696674486, guid: 6a10643c89ec3e8469d566361401d595, type: 3}
+  controls: Default Item Controls Text
+  rechargeTime: 3
+  secondaryUseDelay: 1.5
+  maxAmmo: 10
+  currentAmmo: 10
+  damage: 15
+  fireRate: 3
   bulletsPerTap: 1
-  bulletsPerBurstShot: 5
-  spread: 0.5
+  bulletsPerBurstShot: 1
+  spread: 0
   mode: 0
   muzzleFlash: {fileID: 3877800184521580933, guid: 0ce125a7ad968964e81678b62e1399ff, type: 3}
   bullet: {fileID: 11400000, guid: 570f2ba3e6088544385047df6614aab1, type: 2}
